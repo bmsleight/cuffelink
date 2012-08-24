@@ -1,0 +1,97 @@
+# EESchema Netlist Version 1.1 created  Sat 18 Aug 2012 22:19:43 BST
+(
+ ( /4FF4A74E SM0603 D1 R
+  ( 1 N-000007 )
+  ( 2 N-000009 )
+ )
+ ( /4FF4A75D SM0603 D2 A
+  ( 1 N-000010 )
+  ( 2 N-000009 )
+ )
+ ( /4FF4A765 SM0603 D3 G
+  ( 1 N-000008 )
+  ( 2 N-000009 )
+ )
+ ( /4FF4A3C3 analog-devices-TSSOP8 IC1 ATTINY85
+  ( 1 N-000008 )
+  ( 2 N-000010 )
+  ( 3 N-000007 )
+  ( 4 N-000009 )
+  ( 5 N-000004 )
+  ( 6 N-000006 )
+  ( 7 N-000011 )
+  ( 8 N-000001 )
+ )
+ ( /501EB5EE IC IC2 RV-8564-C2
+  ( 1 N-000001 )
+  ( 2 ? )
+  ( 4 N-000011 )
+  ( 5 N-000004 )
+  ( 6 N-000009 )
+  ( 7 ? )
+  ( 10 ? )
+ )
+ ( /501EB3A0 PINTST P1 Vcc
+  ( 1 N-000001 )
+ )
+ ( /4FF5D9E6 PINTST P2 Gnd
+  ( 1 N-000009 )
+ )
+ ( /502D5EAA PINTST P3 Tch
+  ( 1 N-000006 )
+ )
+ ( /501EB76B PINTST P4 Tch
+  ( 1 N-000006 )
+ )
+ ( /501EC303 SM0603 R1 4K7
+  ( 1 N-000001 )
+  ( 2 N-000004 )
+ )
+ ( /501EC3BD SM0603 R2 4K7
+  ( 1 N-000001 )
+  ( 2 N-000011 )
+ )
+)
+*
+{ Allowed footprints by component:
+$component D1
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component D2
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component D3
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component R1
+ R?
+ SM0603
+ SM0805
+ R?-*
+$endlist
+$component R2
+ R?
+ SM0603
+ SM0805
+ R?-*
+$endlist
+$endfootprintlist
+}

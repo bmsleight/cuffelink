@@ -1,0 +1,226 @@
+EESchema Schematic File Version 2  date Thu 16 Aug 2012 22:00:19 BST
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:special
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:1wire
+LIBS:attiny_
+LIBS:crystal-epson
+LIBS:DS2417 
+LIBS:RV-8564-C2
+LIBS:cuffelinks_rag_00b-cache
+EELAYER 25  0
+EELAYER END
+$Descr A4 11700 8267
+encoding utf-8
+Sheet 1 1
+Title ""
+Date "16 aug 2012"
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Connection ~ 7000 1400
+Wire Wire Line
+	7200 1400 7200 1100
+Wire Wire Line
+	7200 1400 5700 1400
+Connection ~ 7100 2050
+Wire Wire Line
+	7100 1750 7100 2300
+Connection ~ 7500 2800
+Wire Wire Line
+	7500 2800 7500 2300
+Connection ~ 7550 700 
+Connection ~ 7750 700 
+Wire Wire Line
+	2450 700  2450 2100
+Wire Wire Line
+	2450 700  8500 700 
+Wire Wire Line
+	8500 700  8500 1700
+Connection ~ 7550 1250
+Wire Wire Line
+	7550 1200 7550 1250
+Wire Wire Line
+	5900 1550 5900 1650
+Wire Wire Line
+	5900 1550 7950 1550
+Wire Wire Line
+	7950 1550 7950 1900
+Wire Wire Line
+	5600 2050 6700 2050
+Wire Wire Line
+	5900 1650 5600 1650
+Wire Wire Line
+	7950 1900 8500 1900
+Wire Wire Line
+	2450 2100 2300 2100
+Wire Wire Line
+	7500 2300 7100 2300
+Wire Wire Line
+	2300 2300 2450 2300
+Wire Wire Line
+	8500 2000 8100 2000
+Wire Wire Line
+	8100 2000 8100 1250
+Wire Wire Line
+	8100 1250 5600 1250
+Wire Wire Line
+	6700 2300 6200 2300
+Wire Wire Line
+	6200 2300 6200 2250
+Wire Wire Line
+	6200 2250 5600 2250
+Wire Wire Line
+	6700 1750 6200 1750
+Wire Wire Line
+	6200 1750 6200 1850
+Wire Wire Line
+	6200 1850 5600 1850
+Wire Wire Line
+	5700 1400 5700 1450
+Wire Wire Line
+	5700 1450 5600 1450
+Wire Wire Line
+	7750 1200 7750 1550
+Connection ~ 7750 1550
+Wire Wire Line
+	10000 2000 10000 2800
+Wire Wire Line
+	10000 2800 2450 2800
+Wire Wire Line
+	2450 2800 2450 2300
+Wire Wire Line
+	7000 1400 7000 1100
+$Comp
+L TST P3
+U 1 1 502D5EAA
+P 7000 1100
+F 0 "P3" H 7000 1400 40  0000 C CNN
+F 1 "Tch" H 7000 1350 30  0000 C CNN
+	1    7000 1100
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R2
+U 1 1 501EC3BD
+P 7750 950
+F 0 "R2" V 7830 950 50  0000 C CNN
+F 1 "4K7" V 7750 950 50  0000 C CNN
+	1    7750 950 
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R1
+U 1 1 501EC303
+P 7550 950
+F 0 "R1" V 7630 950 50  0000 C CNN
+F 1 "4K7" V 7550 950 50  0000 C CNN
+	1    7550 950 
+	1    0    0    -1  
+$EndComp
+$Comp
+L TST P4
+U 1 1 501EB76B
+P 7200 1100
+F 0 "P4" H 7200 1400 40  0000 C CNN
+F 1 "Tch" H 7200 1350 30  0000 C CNN
+	1    7200 1100
+	1    0    0    -1  
+$EndComp
+$Comp
+L RV-8564-C2 IC2
+U 1 1 501EB5EE
+P 9250 1850
+F 0 "IC2" H 9250 1750 60  0000 C CNN
+F 1 "RV-8564-C2" H 9250 1950 60  0000 C CNN
+F 2 "MODULE" H 9250 1850 50  0001 C CNN
+F 3 "DOCUMENTATION" H 9250 1850 50  0001 C CNN
+	1    9250 1850
+	1    0    0    -1  
+$EndComp
+$Comp
+L TST P1
+U 1 1 501EB3A0
+P 2300 2100
+F 0 "P1" H 2300 2400 40  0000 C CNN
+F 1 "Vcc" H 2300 2350 30  0000 C CNN
+	1    2300 2100
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_1 P2
+U 1 1 4FF5D9E6
+P 2150 2300
+F 0 "P2" H 2230 2300 40  0000 L CNN
+F 1 "Gnd" H 2150 2355 30  0001 C CNN
+	1    2150 2300
+	-1   0    0    1   
+$EndComp
+$Comp
+L LED D3
+U 1 1 4FF4A765
+P 6900 2300
+F 0 "D3" H 6900 2400 50  0000 C CNN
+F 1 "G" H 6800 2200 200 0000 C CNN
+	1    6900 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED D2
+U 1 1 4FF4A75D
+P 6900 2050
+F 0 "D2" H 6900 2150 50  0000 C CNN
+F 1 "A" H 6800 1950 200 0000 C CNN
+	1    6900 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED D1
+U 1 1 4FF4A74E
+P 6900 1750
+F 0 "D1" H 6900 1850 50  0000 C CNN
+F 1 "R" H 6800 1650 200 0000 C CNN
+	1    6900 1750
+	1    0    0    -1  
+$EndComp
+$Comp
+L ATTINY25-45-85/DIP-SO IC1
+U 1 1 4FF4A3C3
+P 4000 1750
+F 0 "IC1" H 3975 2375 60  0000 C CNN
+F 1 "ATTINY85" H 4000 2525 60  0000 C CNN
+	1    4000 1750
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC
