@@ -14,6 +14,17 @@
 #define RED_MAN_PIN 3
 #define GREEN_MAN_PIN 4
 
+#define GOTO_SLEEP_AFTER 300
+
+#include <avr/sleep.h>
+
+#ifndef cbi
+#define cbi(sfr, bit) (_SFR_BYTE(sfr) &= ~_BV(bit))
+#endif
+#ifndef sbi
+#define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
+#endif
+
 volatile boolean push_button = false;
 
 void setup() {                
@@ -28,7 +39,7 @@ void setup() {
 }
 
 void loop() {
-  push_button = false;
+  int green_running_time = 0;
   rag(1,0,0,0,1,2000);
   for (int l = 0; l < 2; l++) {
     rag(1,0,0,0,1,500);
@@ -43,9 +54,15 @@ void loop() {
     rag(0,0,0,1,0,500);
   }
   //Min Green time
+  push_button = false;
   rag(0,0,1,1,0,6000); 
-  while(push_button == false)  {
+  while(push_button == false  && green_running_time < GOTO_SLEEP_AFTER)  {
     rag(0,0,1,1,0,1000);
+    green_running_time++;
+  }
+  if(green_running_time >= GOTO_SLEEP_AFTER) {
+    rag(0,0,0,0,0,0); // Turn off
+    system_sleep();
   }
   rag(0,0,1,1,0,1000); // Slight delay
   rag(0,1,0,1,0,3000); // leaving amber
@@ -58,6 +75,13 @@ void PUSH_ISR() {
 }
 
 
+// From http://interface.khm.de/index.php/lab/experiments/sleep_watchdog_battery/
+void system_sleep() {
+  cbi(ADCSRA,ADEN); // Switch Analog to Digital converter OFF
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN); // Set sleep mode
+  sleep_mode(); // System sleeps here
+  sbi(ADCSRA,ADEN);  // Switch Analog to Digital converter ON
+}
 
 void rag(boolean red, boolean amber, boolean green, boolean rm, boolean gm, float period)  {
   if (red) {

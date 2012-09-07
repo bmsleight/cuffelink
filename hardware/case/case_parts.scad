@@ -31,10 +31,10 @@
 
 use <Thread_Library.scad>
 
-$fn=360;
+$fn=36;
 alpha = 0.2725;
 
-width_max = 18;
+width_max = 20;
 
 body_wall_thickness = 1.6;
 pcb_gap = 0.25;
@@ -48,6 +48,8 @@ led_height= 0.6;
 cuff_sides_height = 10.5;
 plastic_connector_thickness = 1.6+battery_thickness+.5;
 plastic_connector_inner_thickness = 3;
+wiggle_room = 1;
+plastic_battery_hole_diameter = battery_diameter + wire_diameter + wiggle_room;
 lower_cuff_width = 5;
 lower_stock_length = 12+body_wall_thickness*2;
 lower_bar_length = 12;
@@ -231,11 +233,12 @@ module plastic_connector() {
 */
 
 module plastic_connector() {
-    color("navy", alpha) {
+!    color("navy", alpha) {
+     eecho(width_max/2-body_wall_thickness);
         difference() {
-            cylinder(h=plastic_connector_thickness, r=7.4, center=true);
+            cylinder(h=plastic_connector_thickness, r=width_max/2-body_wall_thickness, center=true);
             cylinder(h=plastic_connector_thickness*2, r=4.4, center=true);
-            translate([0,0,plastic_connector_thickness/2]) cylinder(h=body_wall_thickness*2, r=7.4, center=true);
+#            translate([0,0,plastic_connector_thickness/2]) cylinder(h=body_wall_thickness*2, r=width_max/2-body_wall_thickness, center=true);
 
         }
 
@@ -270,7 +273,8 @@ module plastic_connector() {
                 backlash=0.1,
                 stepsPerTurn=steps_per_turn
                 );
-            cylinder(h=plastic_connector_thickness*2, r=4.4, center=true);
+*            cylinder(h=plastic_connector_thickness*2, r=4.4, center=true);
+            cylinder(h=plastic_connector_thickness*2, r=plastic_battery_hole_diameter/2, center=true);
         }
     }
 }
@@ -331,4 +335,4 @@ translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_conn
 translate([0,0,0]) cuff_body();
 translate([0,0,-cuff_sides_height/2-lower_stock_length/2+body_wall_thickness]) cuff_lower();
 }
-8?
+*/
