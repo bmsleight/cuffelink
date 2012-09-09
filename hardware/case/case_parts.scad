@@ -58,7 +58,7 @@ hood_diameter = 2;
 hood_height = 1;
 touch_pads_height = 3.;
 touch_pads_cube_height = 1.6;
-touch_pads_diameter = 2;
+touch_pads_diameter = wire_diameter; //Not 3
 touch_pads_offset = 5.5;
 
 steps_per_turn = 60;
@@ -187,6 +187,7 @@ module side_cuff() {
     difference() {
         cylinder(h=cuff_sides_height, r=width_max/2, center=true);
         cylinder(h=cuff_sides_height*2, r=(width_max/2)-body_wall_thickness, center=true);
+        translate([0,0, cuff_sides_height -1]) cylinder(h=cuff_sides_height, r=width_max/2-1, center=true); // Make top boarder a little less thick
     }
 
     translate([0,0,-plastic_connector_thickness/2+body_wall_thickness/2]) 
@@ -233,12 +234,12 @@ module plastic_connector() {
 */
 
 module plastic_connector() {
-!    color("navy", alpha) {
+    color("navy", alpha) {
      eecho(width_max/2-body_wall_thickness);
         difference() {
             cylinder(h=plastic_connector_thickness, r=width_max/2-body_wall_thickness, center=true);
             cylinder(h=plastic_connector_thickness*2, r=4.4, center=true);
-#            translate([0,0,plastic_connector_thickness/2]) cylinder(h=body_wall_thickness*2, r=width_max/2-body_wall_thickness, center=true);
+            translate([0,0,plastic_connector_thickness/2]) cylinder(h=body_wall_thickness*2, r=width_max/2-body_wall_thickness, center=true);
 
         }
 
@@ -261,7 +262,9 @@ module plastic_connector() {
 
         difference() {
             translate([0,0,(plastic_connector_thickness)/2-body_wall_thickness])  
-            trapezoidThread(
+            cylinder(h=body_wall_thickness, r=(width_max/2)-body_wall_thickness - .3, center=true);
+// Remove the tread - let the plastic be thread by the metal case
+/*            trapezoidThread(
                 length=body_wall_thickness,
                 pitch=0.6,	
                 pitchRadius=(width_max/2)-body_wall_thickness - .3,  // Opening - (pitch*HeightToPitch) 
@@ -273,6 +276,7 @@ module plastic_connector() {
                 backlash=0.1,
                 stepsPerTurn=steps_per_turn
                 );
+*/
 *            cylinder(h=plastic_connector_thickness*2, r=4.4, center=true);
             cylinder(h=plastic_connector_thickness*2, r=plastic_battery_hole_diameter/2, center=true);
         }
