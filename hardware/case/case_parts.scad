@@ -51,7 +51,7 @@ plastic_connector_inner_thickness = 3;
 plastic_connector_battery_space = battery_thickness + wire_diameter/2;
 wiggle_room = 2;
 plastic_battery_hole_diameter = battery_diameter + wire_diameter + wiggle_room;
-cuff_sides_height = 10.5 + need_to_make_it_two_lazer_cut_thickness;;
+cuff_sides_height = 10.5 + need_to_make_it_two_lazer_cut_thickness;
 lower_cuff_width = 5;
 lower_stock_length = 12+body_wall_thickness*2;
 lower_bar_length = 12;
@@ -250,14 +250,14 @@ module plastic_connector() {
             cylinder(h=plastic_connector_thickness*2, r=4.4, center=true);
             translate([0,0,plastic_connector_thickness/2]) cylinder(h=body_wall_thickness*2, r=width_max/2-body_wall_thickness, center=true);
             translate([-8.4,8.4,-plastic_connector_thickness/2+.5])  rotate([0,180,180]) linear_extrude(height = 0.5) import("base_for_text.dxf");
-#          translate([0,0,plastic_connector_battery_space-.8]) cylinder(h=plastic_connector_battery_space*2, r=plastic_battery_hole_diameter/2, center=true);
+#          translate([0,0,plastic_connector_battery_space]) cylinder(h=plastic_connector_battery_space*2, r=plastic_battery_hole_diameter/2, center=true);
         }
 
-        translate([0,0,-(plastic_connector_thickness-1.6)/2]) difference() {
-            cylinder(h=1.6, r=4.75, center=true);
+        translate([0,0,-(plastic_connector_thickness-(body_wall_thickness + need_to_make_it_two_lazer_cut_thickness))/2]) difference() {
+            cylinder(h=body_wall_thickness + need_to_make_it_two_lazer_cut_thickness, r=4.75, center=true);
 
             translate([0,0,-0.8])  trapezoidThreadNegativeSpace(
-                length=1.6,
+                length=body_wall_thickness + need_to_make_it_two_lazer_cut_thickness,
                 pitch=0.6,	
                 pitchRadius=4.1, 
                 threadHeightToPitch=0.5,
@@ -297,9 +297,9 @@ module plastic_connector() {
 
 
 module disc_cuff() {
-    cylinder(h=body_wall_thickness, r=lower_cuff_width/2, center=true);
-translate([0,0,-0.8]) trapezoidThread( 
-                length=1.6,
+    cylinder(h=body_wall_thickness + need_to_make_it_two_lazer_cut_thickness, r=lower_cuff_width/2, center=true);
+translate([0,0,-(body_wall_thickness + need_to_make_it_two_lazer_cut_thickness)/2]) trapezoidThread( 
+                length=body_wall_thickness + need_to_make_it_two_lazer_cut_thickness,
                 pitch=0.6,	
                 pitchRadius=4.1, 
                 threadHeightToPitch=0.5,
@@ -336,10 +336,10 @@ module cuff_lower() {
 }
 
 
-translate([0,0,0]) electronics();
+*translate([0,0,0]) electronics();
 translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_connector();
-translate([0,0,0]) cuff_body();
-translate([0,0,-cuff_sides_height/2-lower_stock_length/2+body_wall_thickness]) cuff_lower();
+*translate([0,0,0]) cuff_body();
+*translate([0,0,-cuff_sides_height/2-lower_stock_length/2+body_wall_thickness]) cuff_lower();
 
 /*
 translate([22,0,0]) {
