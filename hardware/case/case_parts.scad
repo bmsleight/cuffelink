@@ -45,11 +45,13 @@ battery_diameter = 9.5;
 wire_diameter = 1.23;
 chip_thickness = 1.1;
 led_height= 0.6;
-cuff_sides_height = 10.5;
-plastic_connector_thickness = 1.6+battery_thickness+.5;
+need_to_make_it_two_lazer_cut_thickness = 1.2;
+plastic_connector_thickness = body_wall_thickness +battery_thickness+.5 + need_to_make_it_two_lazer_cut_thickness;
 plastic_connector_inner_thickness = 3;
-wiggle_room = 1;
+plastic_connector_battery_space = battery_thickness + wire_diameter/2;
+wiggle_room = 2;
 plastic_battery_hole_diameter = battery_diameter + wire_diameter + wiggle_room;
+cuff_sides_height = 10.5 + need_to_make_it_two_lazer_cut_thickness;;
 lower_cuff_width = 5;
 lower_stock_length = 12+body_wall_thickness*2;
 lower_bar_length = 12;
@@ -235,16 +237,24 @@ module plastic_connector() {
 
 module plastic_connector() {
     color("navy", alpha) {
+     eecho("Outer r:");
      eecho(width_max/2-body_wall_thickness);
+     eecho("Inner r:");
+     eecho("4.4");
+     eecho("Bottom hole r:");
+     eecho(plastic_battery_hole_diameter/2);
+     eecho("h=plastic_connector_thickness:");
+     eecho(plastic_connector_thickness);
         difference() {
             cylinder(h=plastic_connector_thickness, r=width_max/2-body_wall_thickness, center=true);
             cylinder(h=plastic_connector_thickness*2, r=4.4, center=true);
             translate([0,0,plastic_connector_thickness/2]) cylinder(h=body_wall_thickness*2, r=width_max/2-body_wall_thickness, center=true);
-
+            translate([-8.4,8.4,-plastic_connector_thickness/2+.5])  rotate([0,180,180]) linear_extrude(height = 0.5) import("base_for_text.dxf");
+#          translate([0,0,plastic_connector_battery_space-.8]) cylinder(h=plastic_connector_battery_space*2, r=plastic_battery_hole_diameter/2, center=true);
         }
 
         translate([0,0,-(plastic_connector_thickness-1.6)/2]) difference() {
-            cylinder(h=1.6, r=7.4, center=true);
+            cylinder(h=1.6, r=4.75, center=true);
 
             translate([0,0,-0.8])  trapezoidThreadNegativeSpace(
                 length=1.6,
@@ -326,7 +336,7 @@ module cuff_lower() {
 }
 
 
-translate([0,0,-.75]) electronics();
+translate([0,0,0]) electronics();
 translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_connector();
 translate([0,0,0]) cuff_body();
 translate([0,0,-cuff_sides_height/2-lower_stock_length/2+body_wall_thickness]) cuff_lower();
