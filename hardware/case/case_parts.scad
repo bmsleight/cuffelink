@@ -48,7 +48,7 @@ wire_diameter = 1.23;
 chip_thickness = 1.1;
 led_height= 0.6;
 need_to_make_it_two_lazer_cut_thickness = 1.2;
-plastic_connector_thickness = body_wall_thickness +battery_thickness+.5 + need_to_make_it_two_lazer_cut_thickness;
+plastic_connector_thickness = body_wall_thickness +battery_thickness+.75 + need_to_make_it_two_lazer_cut_thickness;
 plastic_connector_inner_thickness = 3;
 plastic_connector_battery_space = battery_thickness + wire_diameter/2;
 wiggle_room = 2;
@@ -227,18 +227,10 @@ module cuff_body() {
 }
 
 
-/*
-module plastic_connector() {
-    color("navy", alpha) difference() {
-        cylinder(h=plastic_connector_thickness, r=width_max/2-body_wall_thickness, center=true);
-        cylinder(h=plastic_connector_thickness*2, r=(width_max/2-body_wall_thickness)-1.6, center=true);
+// Engrave text
+//            translate([-8.4,8.4,-plastic_connector_thickness/2+.5])  rotate([0,180,180]) linear_extrude(height = 0.5) import("base_for_text.dxf");
 
-    }
-    eecho("Plastic");
-    eecho(width_max/2-body_wall_thickness);
-    eecho(width_max/2-(body_wall_thickness)-plastic_connector_inner_thickness);
-}
-*/
+
 
 module plastic_connector() {
     color("navy", alpha) {
@@ -250,21 +242,13 @@ module plastic_connector() {
      eecho(plastic_battery_hole_diameter/2);
      eecho("h=plastic_connector_thickness:");
      eecho(plastic_connector_thickness);
-        difference() {
-            cylinder(h=plastic_connector_thickness, r=width_max/2-body_wall_thickness, center=true);
-            cylinder(h=plastic_connector_thickness*2, r=4.4, center=true);
-            translate([0,0,plastic_connector_thickness/2]) cylinder(h=body_wall_thickness*2, r=width_max/2-body_wall_thickness, center=true);
-            translate([-8.4,8.4,-plastic_connector_thickness/2+.5])  rotate([0,180,180]) linear_extrude(height = 0.5) import("base_for_text.dxf");
-#          translate([0,0,plastic_connector_battery_space]) cylinder(h=plastic_connector_battery_space*2, r=plastic_battery_hole_diameter/2, center=true);
-        }
-
-        translate([0,0,-(plastic_connector_thickness-(body_wall_thickness + need_to_make_it_two_lazer_cut_thickness))/2]) difference() {
-            cylinder(h=body_wall_thickness + need_to_make_it_two_lazer_cut_thickness, r=4.75, center=true);
-
-            translate([0,0,-0.8])  trapezoidThreadNegativeSpace(
+    difference() {
+        cylinder(h=plastic_connector_thickness, r=width_max/2-body_wall_thickness, center=true);
+        translate([0,0,body_wall_thickness + need_to_make_it_two_lazer_cut_thickness]) cylinder(h=plastic_connector_thickness, r=plastic_battery_hole_diameter/2, center=true);
+      translate([0,0,-(body_wall_thickness + need_to_make_it_two_lazer_cut_thickness)])  trapezoidThreadNegativeSpace(
                 length=body_wall_thickness + need_to_make_it_two_lazer_cut_thickness,
-                pitch=0.6,	
-                pitchRadius=4.1, 
+                pitch=body_wall_thickness,	
+                pitchRadius=plastic_battery_hole_diameter/2, 
                 threadHeightToPitch=0.5,
                 profileRatio=0.5,
                 threadAngle=30,
@@ -273,13 +257,14 @@ module plastic_connector() {
                 backlash=0.1,
                 stepsPerTurn=steps_per_turn
                 );
+        // Remove the bottom - as thread will add in a peice
+        translate([0,0,plastic_connector_thickness/2+body_wall_thickness]) cylinder(h=plastic_connector_thickness, r=width_max/2-body_wall_thickness, center=true);
+
         }
 
-*        difference() {
-            translate([0,0,(plastic_connector_thickness)/2-body_wall_thickness])  
-            cylinder(h=body_wall_thickness, r=(width_max/2)-body_wall_thickness - .3, center=true);
-// Remove the tread - let the plastic be thread by the metal case
- #           trapezoidThread(
+    translate([0,0,plastic_connector_thickness/2-body_wall_thickness]) {
+        difference() { 
+            trapezoidThread( 
                 length=body_wall_thickness,
                 pitch=0.6,	
                 pitchRadius=(width_max/2)-body_wall_thickness - .3,  // Opening - (pitch*HeightToPitch) 
@@ -291,11 +276,11 @@ module plastic_connector() {
                 backlash=0.1,
                 stepsPerTurn=steps_per_turn
                 );
-
-*            cylinder(h=plastic_connector_thickness*2, r=4.4, center=true);
-            cylinder(h=plastic_connector_thickness*2, r=plastic_battery_hole_diameter/2, center=true);
+        translate([0,0,0]) cylinder(h=plastic_connector_thickness, r=plastic_battery_hole_diameter/2, center=true);
         }
     }
+}
+
 }
 
 
@@ -305,8 +290,8 @@ module disc_cuff() {
     cylinder(h=body_wall_thickness + need_to_make_it_two_lazer_cut_thickness, r=lower_cuff_width/2, center=true);
 translate([0,0,-(body_wall_thickness + need_to_make_it_two_lazer_cut_thickness)/2]) trapezoidThread( 
                 length=body_wall_thickness + need_to_make_it_two_lazer_cut_thickness,
-                pitch=0.6,	
-                pitchRadius=4.1, 
+                pitch=body_wall_thickness,	
+                pitchRadius=plastic_battery_hole_diameter/2, 
                 threadHeightToPitch=0.5,
                 profileRatio=0.5,
                 threadAngle=30,
@@ -341,10 +326,10 @@ module cuff_lower() {
 }
 
 module master() {
-    translate([0,0,0]) electronics();
+*    translate([0,0,0]) electronics();
     translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_connector();
      translate([0,0,0]) cuff_body();
-     *translate([0,0,-cuff_sides_height/2-lower_stock_length/2+body_wall_thickness+need_to_make_it_two_lazer_cut_thickness/2]) cuff_lower();
+     translate([0,0,-cuff_sides_height/2-lower_stock_length/2+body_wall_thickness+need_to_make_it_two_lazer_cut_thickness/2]) cuff_lower();
 }
 
 
