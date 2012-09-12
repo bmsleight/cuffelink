@@ -32,6 +32,8 @@
 use <Thread_Library.scad>
 
 $fn=36;
+//steps_per_turn = 60;
+steps_per_turn = 10;
 alpha = 0.2725;
 
 width_max = 20;
@@ -63,7 +65,7 @@ touch_pads_cube_height = 1.6;
 touch_pads_diameter = wire_diameter; //Not 3
 touch_pads_offset = 5.5;
 
-steps_per_turn = 60;
+
 
 module eecho(text) {
     echo(text);
@@ -192,7 +194,9 @@ module side_cuff() {
         translate([0,0, cuff_sides_height -1]) cylinder(h=cuff_sides_height, r=width_max/2-1, center=true); // Make top boarder a little less thick
     }
 
-    translate([0,0,-plastic_connector_thickness/2+body_wall_thickness/2]) 
+
+//    translate([0,0,-plastic_connector_thickness+(body_wall_thickness/2)]) 
+    translate([0,0,-cuff_sides_height/2+plastic_connector_thickness-body_wall_thickness/2]) 
     difference() { 
         cylinder(h=body_wall_thickness, r=(width_max/2)-body_wall_thickness, center=true);
 
@@ -210,6 +214,7 @@ module side_cuff() {
                 stepsPerTurn=steps_per_turn
                 );
     }
+
 
 }
 
@@ -270,11 +275,11 @@ module plastic_connector() {
                 );
         }
 
-        difference() {
+*        difference() {
             translate([0,0,(plastic_connector_thickness)/2-body_wall_thickness])  
             cylinder(h=body_wall_thickness, r=(width_max/2)-body_wall_thickness - .3, center=true);
 // Remove the tread - let the plastic be thread by the metal case
-/*            trapezoidThread(
+ #           trapezoidThread(
                 length=body_wall_thickness,
                 pitch=0.6,	
                 pitchRadius=(width_max/2)-body_wall_thickness - .3,  // Opening - (pitch*HeightToPitch) 
@@ -286,7 +291,7 @@ module plastic_connector() {
                 backlash=0.1,
                 stepsPerTurn=steps_per_turn
                 );
-*/
+
 *            cylinder(h=plastic_connector_thickness*2, r=4.4, center=true);
             cylinder(h=plastic_connector_thickness*2, r=plastic_battery_hole_diameter/2, center=true);
         }
@@ -319,10 +324,10 @@ module stork_cuff() {
 module bar_cuff() {
     rotate([90,0,90]) {
         cylinder(h=lower_bar_length, r=body_wall_thickness, center=true);
-        translate([0,0,lower_bar_length/4]) cylinder(h=body_wall_thickness, r=body_wall_thickness+(body_wall_thickness/2), center=true);
-        translate([0,0,lower_bar_length/2]) cylinder(h=body_wall_thickness, r=body_wall_thickness+(body_wall_thickness/2), center=true);
-        translate([0,0,-lower_bar_length/4]) cylinder(h=body_wall_thickness, r=body_wall_thickness+(body_wall_thickness/2), center=true);
-        translate([0,0,-lower_bar_length/2]) cylinder(h=body_wall_thickness, r=body_wall_thickness+(body_wall_thickness/2), center=true);
+        translate([0,0,lower_bar_length/4]) cylinder(h=body_wall_thickness, r=body_wall_thickness+(body_wall_thickness/4), center=true);
+        translate([0,0,lower_bar_length/2]) cylinder(h=body_wall_thickness, r=body_wall_thickness+(body_wall_thickness/4), center=true);
+        translate([0,0,-lower_bar_length/4]) cylinder(h=body_wall_thickness, r=body_wall_thickness+(body_wall_thickness/4), center=true);
+        translate([0,0,-lower_bar_length/2]) cylinder(h=body_wall_thickness, r=body_wall_thickness+(body_wall_thickness/4), center=true);
     }
 }
 
@@ -335,18 +340,16 @@ module cuff_lower() {
     }
 }
 
-
-*translate([0,0,0]) electronics();
-translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_connector();
-*translate([0,0,0]) cuff_body();
-*translate([0,0,-cuff_sides_height/2-lower_stock_length/2+body_wall_thickness]) cuff_lower();
-
-/*
-translate([22,0,0]) {
-
-translate([0,0,-.75]) electronics();
-translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_connector();
-translate([0,0,0]) cuff_body();
-translate([0,0,-cuff_sides_height/2-lower_stock_length/2+body_wall_thickness]) cuff_lower();
+module master() {
+    translate([0,0,0]) electronics();
+    translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_connector();
+     translate([0,0,0]) cuff_body();
+     *translate([0,0,-cuff_sides_height/2-lower_stock_length/2+body_wall_thickness+need_to_make_it_two_lazer_cut_thickness/2]) cuff_lower();
 }
-*/
+
+
+difference() {
+master();
+translate([12.5,12.5,0]) cube(size = [25,25,50], center=true); // Cut Away
+}
+
