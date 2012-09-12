@@ -33,7 +33,7 @@ use <Thread_Library.scad>
 
 $fn=36;
 //steps_per_turn = 60;
-steps_per_turn = 10;
+steps_per_turn = 30;
 alpha = 0.2725;
 
 width_max = 20;
@@ -247,7 +247,7 @@ module plastic_connector() {
         translate([0,0,body_wall_thickness + need_to_make_it_two_lazer_cut_thickness]) cylinder(h=plastic_connector_thickness, r=plastic_battery_hole_diameter/2, center=true);
       translate([0,0,-(body_wall_thickness + need_to_make_it_two_lazer_cut_thickness)])  trapezoidThreadNegativeSpace(
                 length=body_wall_thickness + need_to_make_it_two_lazer_cut_thickness,
-                pitch=body_wall_thickness,	
+                pitch=body_wall_thickness*0.66,
                 pitchRadius=plastic_battery_hole_diameter/2, 
                 threadHeightToPitch=0.5,
                 profileRatio=0.5,
@@ -287,10 +287,10 @@ module plastic_connector() {
 
 
 module disc_cuff() {
-    cylinder(h=body_wall_thickness + need_to_make_it_two_lazer_cut_thickness, r=lower_cuff_width/2, center=true);
-translate([0,0,-(body_wall_thickness + need_to_make_it_two_lazer_cut_thickness)/2]) trapezoidThread( 
+    difference() {
+        translate([0,0,-(body_wall_thickness + need_to_make_it_two_lazer_cut_thickness)/2]) trapezoidThread( 
                 length=body_wall_thickness + need_to_make_it_two_lazer_cut_thickness,
-                pitch=body_wall_thickness,	
+                pitch=body_wall_thickness*0.66,	
                 pitchRadius=plastic_battery_hole_diameter/2, 
                 threadHeightToPitch=0.5,
                 profileRatio=0.5,
@@ -300,10 +300,20 @@ translate([0,0,-(body_wall_thickness + need_to_make_it_two_lazer_cut_thickness)/
                 backlash=0.1,
                 stepsPerTurn=steps_per_turn
                 );
+        translate([0,0,(body_wall_thickness + need_to_make_it_two_lazer_cut_thickness)-0.5]) cylinder(h=body_wall_thickness + need_to_make_it_two_lazer_cut_thickness, r=plastic_battery_hole_diameter/2, center=true);
+    }
+    cylinder(h = 1.6, r1 = battery_diameter/2, r2 = battery_diameter/2 -1, center = false);
+}
+
+module disc_cuff_with_hole() {
+    difference() {
+        disc_cuff();
+        translate([0,0,0.2]) cylinder(h = 1.4, r = 2.5, center = false);
+    }
 }
 
 module stork_cuff() {
-    cylinder(h=lower_stock_length, r=body_wall_thickness, center=true);
+    translate([0,0,-body_wall_thickness/2]) cylinder(h=lower_stock_length-body_wall_thickness, r=body_wall_thickness, center=true);
 }
 
 module bar_cuff() {
@@ -319,7 +329,7 @@ module bar_cuff() {
 
 module cuff_lower() {
     color("gold", alpha) {
-        translate([0,0,-body_wall_thickness/2+lower_stock_length/2]) disc_cuff();
+        translate([0,0,-body_wall_thickness/2+lower_stock_length/2]) disc_cuff_with_hole();
         stork_cuff();
         translate([0,0,-lower_stock_length/2]) bar_cuff();
     }
@@ -327,7 +337,7 @@ module cuff_lower() {
 
 module master() {
 *    translate([0,0,0]) electronics();
-    translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_connector();
+*    translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_connector();
      translate([0,0,0]) cuff_body();
      translate([0,0,-cuff_sides_height/2-lower_stock_length/2+body_wall_thickness+need_to_make_it_two_lazer_cut_thickness/2]) cuff_lower();
 }
@@ -335,6 +345,6 @@ module master() {
 
 difference() {
 master();
-translate([12.5,12.5,0]) cube(size = [25,25,50], center=true); // Cut Away
+*translate([12.5,12.5,0]) cube(size = [25,25,50], center=true); // Cut Away
 }
 
