@@ -228,8 +228,7 @@ module cuff_body() {
 
 
 // Engrave text
-//            translate([-8.4,8.4,-plastic_connector_thickness/2+.5])  rotate([0,180,180]) linear_extrude(height = 0.5) import("base_for_text.dxf");
-
+//            
 
 
 module plastic_connector() {
@@ -301,6 +300,8 @@ module disc_cuff() {
                 stepsPerTurn=steps_per_turn
                 );
         translate([0,0,(body_wall_thickness + need_to_make_it_two_lazer_cut_thickness)-0.5]) cylinder(h=body_wall_thickness + need_to_make_it_two_lazer_cut_thickness, r=plastic_battery_hole_diameter/2, center=true);
+     translate([-6.5,6.5,-0.9])  rotate([0,180,180]) linear_extrude(height = 0.6) import("base_for_text.dxf");
+
     }
     cylinder(h = 1.6, r1 = battery_diameter/2, r2 = battery_diameter/2 -1, center = false);
 }
@@ -347,4 +348,6 @@ difference() {
 master();
 *translate([12.5,12.5,0]) cube(size = [25,25,50], center=true); // Cut Away
 }
+
+translate([22, 0 ,0]) master();
 
