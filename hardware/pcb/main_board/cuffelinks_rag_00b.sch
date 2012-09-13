@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date Thu 16 Aug 2012 22:00:19 BST
+EESchema Schematic File Version 2  date Wed 12 Sep 2012 22:18:27 BST
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -29,19 +29,15 @@ LIBS:opto
 LIBS:atmel
 LIBS:contrib
 LIBS:valves
-LIBS:1wire
 LIBS:attiny_
-LIBS:crystal-epson
-LIBS:DS2417 
 LIBS:RV-8564-C2
-LIBS:cuffelinks_rag_00b-cache
 EELAYER 25  0
 EELAYER END
 $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "16 aug 2012"
+Date "12 sep 2012"
 Rev ""
 Comp ""
 Comment1 ""
@@ -49,86 +45,91 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Connection ~ 7000 1400
+Connection ~ 6800 1400
 Wire Wire Line
-	7200 1400 7200 1100
+	7000 1400 6250 1400
 Wire Wire Line
-	7200 1400 5700 1400
-Connection ~ 7100 2050
+	6700 2300 6450 2300
 Wire Wire Line
-	7100 1750 7100 2300
-Connection ~ 7500 2800
+	6450 2300 6450 2050
 Wire Wire Line
-	7500 2800 7500 2300
-Connection ~ 7550 700 
-Connection ~ 7750 700 
+	6450 2050 5600 2050
 Wire Wire Line
-	2450 700  2450 2100
+	6700 1750 6550 1750
 Wire Wire Line
-	2450 700  8500 700 
+	6550 1750 6550 1450
 Wire Wire Line
-	8500 700  8500 1700
-Connection ~ 7550 1250
+	6550 1450 5600 1450
 Wire Wire Line
-	7550 1200 7550 1250
-Wire Wire Line
-	5900 1550 5900 1650
-Wire Wire Line
-	5900 1550 7950 1550
-Wire Wire Line
-	7950 1550 7950 1900
-Wire Wire Line
-	5600 2050 6700 2050
-Wire Wire Line
-	5900 1650 5600 1650
-Wire Wire Line
-	7950 1900 8500 1900
-Wire Wire Line
-	2450 2100 2300 2100
-Wire Wire Line
-	7500 2300 7100 2300
-Wire Wire Line
-	2300 2300 2450 2300
-Wire Wire Line
-	8500 2000 8100 2000
-Wire Wire Line
-	8100 2000 8100 1250
-Wire Wire Line
-	8100 1250 5600 1250
-Wire Wire Line
-	6700 2300 6200 2300
-Wire Wire Line
-	6200 2300 6200 2250
-Wire Wire Line
-	6200 2250 5600 2250
-Wire Wire Line
-	6700 1750 6200 1750
-Wire Wire Line
-	6200 1750 6200 1850
-Wire Wire Line
-	6200 1850 5600 1850
-Wire Wire Line
-	5700 1400 5700 1450
-Wire Wire Line
-	5700 1450 5600 1450
-Wire Wire Line
-	7750 1200 7750 1550
-Connection ~ 7750 1550
-Wire Wire Line
-	10000 2000 10000 2800
-Wire Wire Line
-	10000 2800 2450 2800
+	6800 1400 6800 1100
 Wire Wire Line
 	2450 2800 2450 2300
 Wire Wire Line
+	2450 2800 10000 2800
+Wire Wire Line
+	10000 2800 10000 2000
+Connection ~ 7750 1550
+Wire Wire Line
+	7750 1200 7750 1550
+Wire Wire Line
+	5600 1250 8100 1250
+Wire Wire Line
+	8100 1250 8100 2000
+Wire Wire Line
+	8100 2000 8500 2000
+Wire Wire Line
+	2450 2300 2300 2300
+Wire Wire Line
+	7500 2300 7100 2300
+Wire Wire Line
+	2300 2100 2450 2100
+Wire Wire Line
+	8500 1900 7950 1900
+Wire Wire Line
+	5600 1650 5900 1650
+Wire Wire Line
+	7950 1900 7950 1550
+Wire Wire Line
+	7950 1550 5900 1550
+Wire Wire Line
+	5900 1550 5900 1650
+Wire Wire Line
+	7550 1200 7550 1250
+Connection ~ 7550 1250
+Wire Wire Line
+	8500 1700 8500 700 
+Wire Wire Line
+	8500 700  2450 700 
+Wire Wire Line
+	2450 700  2450 2100
+Connection ~ 7750 700 
+Connection ~ 7550 700 
+Wire Wire Line
+	7500 2300 7500 2800
+Connection ~ 7500 2800
+Wire Wire Line
+	7100 2300 7100 1750
+Connection ~ 7100 2050
+Wire Wire Line
 	7000 1400 7000 1100
+Connection ~ 7000 1400
+Wire Wire Line
+	5600 1850 6550 1850
+Wire Wire Line
+	6550 1850 6550 2050
+Wire Wire Line
+	6550 2050 6700 2050
+Wire Wire Line
+	5600 2250 6250 2250
+Wire Wire Line
+	6250 2250 6250 1400
 $Comp
 L TST P3
 U 1 1 502D5EAA
-P 7000 1100
-F 0 "P3" H 7000 1400 40  0000 C CNN
-F 1 "Tch" H 7000 1350 30  0000 C CNN
-	1    7000 1100
+P 6800 1100
+F 0 "P3" H 6800 1400 40  0000 C CNN
+F 1 "Tch" H 6800 1350 30  0000 C CNN
+	1    6800 1100
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -152,10 +153,10 @@ $EndComp
 $Comp
 L TST P4
 U 1 1 501EB76B
-P 7200 1100
-F 0 "P4" H 7200 1400 40  0000 C CNN
-F 1 "Tch" H 7200 1350 30  0000 C CNN
-	1    7200 1100
+P 7000 1100
+F 0 "P4" H 7000 1400 40  0000 C CNN
+F 1 "Tch" H 7000 1350 30  0000 C CNN
+	1    7000 1100
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -219,7 +220,7 @@ L ATTINY25-45-85/DIP-SO IC1
 U 1 1 4FF4A3C3
 P 4000 1750
 F 0 "IC1" H 3975 2375 60  0000 C CNN
-F 1 "ATTINY85" H 4000 2525 60  0000 C CNN
+F 1 "ATTINY45" H 4000 2525 60  0000 C CNN
 	1    4000 1750
 	1    0    0    -1  
 $EndComp
