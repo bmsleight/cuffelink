@@ -68,17 +68,13 @@ struct {
 
 struct settings_in_eeprom
 {
-  boolean found_stored_settings;
+  byte found_stored_settings; // Must store as byte as defualt vlaue 0xFF, not 0x00 or 0x01
+  int start_count;
   int green_time;
 } settings_in_eeprom;
 
 void setup() {                
   cbi(ADCSRA,ADEN);  // switch Analog to Digitalconverter OFF
-  // Load the setting from EEPROM
-  eeprom_read_block((void*)&settings_in_eeprom, (void*)EEPROM_START_OFFSET, sizeof(settings_in_eeprom));
-  if (settings_in_eeprom.found_stored_settings==false) {
-      default_setting_in_eeprom();
-  }
 
   // Let everyone know the power is on
   // initialize the pins as an output.
@@ -86,11 +82,16 @@ void setup() {
   ragPinsToOutput();
   // Traditional Flash test
   flashRAG();
+  // Load the setting from EEPROM
+  eeprom_read_block((void*)&settings_in_eeprom, (void*)EEPROM_START_OFFSET, sizeof(settings_in_eeprom));
+  if (settings_in_eeprom.found_stored_settings==255) {
+      default_setting_in_eeprom();
+  }
    // Lets count to twelve
   // CHANGE TO 13(12) FOR PRODUCTION 
   // This gives us time to realease the cufflinks before touch_calibration 
   // ... so th eback can be screwed in before touch_calibration starts.
-   for (int l = 0; l < settings_in_eeprom.green_time; l++) {
+   for (int l = 0; l < settings_in_eeprom.start_count; l++) {
      showNumber(l);
    }
   powerDown();   // Want touch_calibration down with RAGs off
@@ -108,9 +109,6 @@ void setup() {
   
   TinyWireM.begin();
 
-  settings_in_eeprom.green_time = 3;
-  write_setting_in_eeprom();
-
   setRtcTime(12, 9, 1, 12, 0); //MUST CONFIGURE IN FUNCTION 01-09-2012, 12:00
  // Sleep set-up
   setup_watchdog(8);
@@ -124,7 +122,7 @@ void loop() {
     // If touch sensed then ... 
     if (touched())  { 
       ragPinsToOutput();
-      touches = getTouches(1, 1, 6, MAX_LOOPS);
+      touches = getTouches(1, 1, 7, MAX_LOOPS);
       switch (touches) {
         case 1:
           junctionRAG();
@@ -139,9 +137,12 @@ void loop() {
           showDate();
           break;
         case 5:
-          setLocalTime();
+          readTemp();
           break;
         case 6:
+          setLocalTime();
+          break;
+        case 7:
           setLocalDate();
           break;
       }
@@ -236,6 +237,33 @@ void setLocalDate() {
 
 }
 
+void readTemp() { 
+  // http://www.instructables.com/id/Hidden-Arduino-Thermometer/ 
+  // 250 ->27
+  // 244 -> 22
+  
+  sbi(ADCSRA,ADEN);                    // switch Analog to Digitalconverter ON
+  // Read temperature sensor against 1.1V reference
+  ADMUX = _BV(REFS1) | _BV(MUX3) | _BV(MUX2) | _BV(MUX1) | _BV(MUX0);
+  delay(2); // Wait for ADMUX setting to settle
+  ADCSRA |= _BV(ADSC); // Start conversion
+  while (bit_is_set(ADCSRA,ADSC)); // measuring
+
+  uint8_t low = ADCL; // must read ADCL first - it then locks ADCH
+  uint8_t high = ADCH; // unlocks both
+  long t_result = (high << 8) | low; // combine the two
+  cbi(ADCSRA,ADEN);                    // switch Analog to Digitalconverter OFF
+
+  byte h = t_result/100;
+  byte t = (t_result-(h*100))/10;
+  byte u = t_result-(h*100)-(t*10);
+  showNumber(h);
+  delay(NUMBER_DELAY*2);
+  showNumber(t);
+  delay(NUMBER_DELAY*2);
+  showNumber(u);
+}
+
 
 byte getTouches(byte touches, byte min_touch, byte max_touch, byte max_loops) {
   showNumber(touches);
@@ -299,7 +327,6 @@ byte bcdToDec(byte val)  {
 // Convert binary coded decimal to normal decimal numbers
   return ( (val/16*10) + (val%16) );
 }
-
 
 
 void signalSettingMode() {
@@ -463,11 +490,10 @@ ISR(WDT_vect) {
 
 
 void default_setting_in_eeprom() {
-//  boolean found_stored_settings;
-//  int green_time;
-//} settings_in_eeprom;
-  settings_in_eeprom.found_stored_settings = false;
+  settings_in_eeprom.found_stored_settings = 0;
   settings_in_eeprom.green_time = 7;
+  settings_in_eeprom.start_count = 11;
+  signalSettingMode();
   write_setting_in_eeprom();
 }
 
