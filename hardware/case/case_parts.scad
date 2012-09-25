@@ -31,9 +31,9 @@
 
 use <Thread_Library.scad>
 
-$fn=36;
+$fn=360;
 //steps_per_turn = 60;
-steps_per_turn = 30;
+steps_per_turn = 60;
 alpha = 0.2725;
 
 width_max = 20;
