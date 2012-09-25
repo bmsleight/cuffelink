@@ -26,6 +26,7 @@
  
  */
 
+#include <avr/eeprom.h>
 #include <avr/sleep.h>
 #include <avr/wdt.h>
 #include <TinyWireM.h>  
@@ -50,6 +51,8 @@ byte zero = 0x00; //workaround for issue #527
 #define NUMBER_DELAY 500
 #define MAX_LOOPS 2
 
+#define EEPROM_START_OFFSET 0
+
 volatile boolean f_wdt = 1;
 int touch_calibration = 0;
 
@@ -63,9 +66,20 @@ struct {
   int year;
 } rtcDate;
 
+struct settings_in_eeprom
+{
+  boolean found_stored_settings;
+  int green_time;
+} settings_in_eeprom;
 
 void setup() {                
   cbi(ADCSRA,ADEN);  // switch Analog to Digitalconverter OFF
+  // Load the setting from EEPROM
+  eeprom_read_block((void*)&settings_in_eeprom, (void*)EEPROM_START_OFFSET, sizeof(settings_in_eeprom));
+  if (settings_in_eeprom.found_stored_settings==false) {
+      default_setting_in_eeprom();
+  }
+
   // Let everyone know the power is on
   // initialize the pins as an output.
   // Hello World!
@@ -76,7 +90,7 @@ void setup() {
   // CHANGE TO 13(12) FOR PRODUCTION 
   // This gives us time to realease the cufflinks before touch_calibration 
   // ... so th eback can be screwed in before touch_calibration starts.
-   for (int l = 0; l < 6; l++) {
+   for (int l = 0; l < settings_in_eeprom.green_time; l++) {
      showNumber(l);
    }
   powerDown();   // Want touch_calibration down with RAGs off
@@ -93,6 +107,9 @@ void setup() {
   powerDown();
   
   TinyWireM.begin();
+
+  settings_in_eeprom.green_time = 3;
+  write_setting_in_eeprom();
 
   setRtcTime(12, 9, 1, 12, 0); //MUST CONFIGURE IN FUNCTION 01-09-2012, 12:00
  // Sleep set-up
@@ -444,3 +461,16 @@ ISR(WDT_vect) {
   f_wdt=1;  // set global flag
 }
 
+
+void default_setting_in_eeprom() {
+//  boolean found_stored_settings;
+//  int green_time;
+//} settings_in_eeprom;
+  settings_in_eeprom.found_stored_settings = false;
+  settings_in_eeprom.green_time = 7;
+  write_setting_in_eeprom();
+}
+
+void write_setting_in_eeprom() {
+  eeprom_write_block((const void*)&settings_in_eeprom, (void*)EEPROM_START_OFFSET, sizeof(settings_in_eeprom));
+}
