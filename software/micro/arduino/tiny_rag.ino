@@ -71,6 +71,8 @@ struct settings_in_eeprom
   byte found_stored_settings; // Must store as byte as defualt vlaue 0xFF, not 0x00 or 0x01
   int start_count;
   int green_time;
+  int raw_temp_1;
+  int calibrated_temp_1;
 } settings_in_eeprom;
 
 void setup() {                
@@ -87,10 +89,9 @@ void setup() {
   if (settings_in_eeprom.found_stored_settings==255) {
       default_setting_in_eeprom();
   }
-   // Lets count to twelve
-  // CHANGE TO 13(12) FOR PRODUCTION 
+
   // This gives us time to realease the cufflinks before touch_calibration 
-  // ... so th eback can be screwed in before touch_calibration starts.
+  // ... so the back can be screwed in before touch_calibration starts.
    for (int l = 0; l < settings_in_eeprom.start_count; l++) {
      showNumber(l);
    }
@@ -137,7 +138,7 @@ void loop() {
           showDate();
           break;
         case 5:
-          readTemp();
+          showTemp();
           break;
         case 6:
           setLocalTime();
@@ -237,33 +238,31 @@ void setLocalDate() {
 
 }
 
-void readTemp() { 
-  // http://www.instructables.com/id/Hidden-Arduino-Thermometer/ 
-  // 250 ->27
-  // 244 -> 22
-  
+void showTemp() {
+  int t_result = getTempCalibrated(); 
+  // Assuming this is less than 100 and is 0 or greater
+  showNumber(t_result/10);
+  delay(NUMBER_DELAY*2);
+  showNumber(t_result%10);
+}
+
+int getTempCalibrated(){
+  return getTemp() - settings_in_eeprom.raw_temp_1 + settings_in_eeprom.calibrated_temp_1;
+}
+
+int getTemp() {
+  // http://www.instructables.com/id/Hidden-Arduino-Thermometer/   
   sbi(ADCSRA,ADEN);                    // switch Analog to Digitalconverter ON
   // Read temperature sensor against 1.1V reference
   ADMUX = _BV(REFS1) | _BV(MUX3) | _BV(MUX2) | _BV(MUX1) | _BV(MUX0);
   delay(2); // Wait for ADMUX setting to settle
   ADCSRA |= _BV(ADSC); // Start conversion
   while (bit_is_set(ADCSRA,ADSC)); // measuring
-
   uint8_t low = ADCL; // must read ADCL first - it then locks ADCH
   uint8_t high = ADCH; // unlocks both
-  long t_result = (high << 8) | low; // combine the two
   cbi(ADCSRA,ADEN);                    // switch Analog to Digitalconverter OFF
-
-  byte h = t_result/100;
-  byte t = (t_result-(h*100))/10;
-  byte u = t_result-(h*100)-(t*10);
-  showNumber(h);
-  delay(NUMBER_DELAY*2);
-  showNumber(t);
-  delay(NUMBER_DELAY*2);
-  showNumber(u);
+  return (high << 8) | low; // combine the two
 }
-
 
 byte getTouches(byte touches, byte min_touch, byte max_touch, byte max_loops) {
   showNumber(touches);
@@ -493,6 +492,8 @@ void default_setting_in_eeprom() {
   settings_in_eeprom.found_stored_settings = 0;
   settings_in_eeprom.green_time = 7;
   settings_in_eeprom.start_count = 11;
+  settings_in_eeprom.raw_temp_1 = getTemp();
+  settings_in_eeprom.calibrated_temp_1 = 20;
   signalSettingMode();
   write_setting_in_eeprom();
 }
