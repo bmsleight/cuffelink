@@ -24,6 +24,10 @@
  * Modified on 5 Feb 2011 by InsideGadgets (www.insidegadgets.com)
  * to suit the ATtiny85 and removed the cbi( MCUCR,SE ) section 
  
+
+ Used Thermometer Example
+ * http://www.instructables.com/id/Hidden-Arduino-Thermometer/ 
+
  */
 
 #include <avr/eeprom.h>
@@ -68,7 +72,7 @@ struct {
 
 struct settings_in_eeprom
 {
-  byte found_stored_settings; // Must store as byte as defualt vlaue 0xFF, not 0x00 or 0x01
+  byte found_stored_settings; // Must store as byte as defualt value 0xFF, not 0x00 or 0x01
   int start_count;
   int green_time;
   int raw_temp_1;
@@ -95,7 +99,7 @@ void setup() {
    for (int l = 0; l < settings_in_eeprom.start_count; l++) {
      showNumber(l);
    }
-  powerDown();   // Want touch_calibration down with RAGs off
+  powerDown();   // Want touch_calibration done with RAGs off
 
   // Get touch_calibration Value
   for (int i = 0; i < 8; i++) {
@@ -118,12 +122,13 @@ void setup() {
 
 void loop() {
   int touches = 0;
+  int second_touches = 0;
   if (f_wdt==1) {  // wait for timed out watchdog / flag is set when a watchdog timeout occurs
     f_wdt=0;       // reset flag
     // If touch sensed then ... 
     if (touched())  { 
       ragPinsToOutput();
-      touches = getTouches(1, 1, 7, MAX_LOOPS);
+      touches = getTouches(1, 1, 6, MAX_LOOPS);
       switch (touches) {
         case 1:
           junctionRAG();
@@ -141,10 +146,24 @@ void loop() {
           showTemp();
           break;
         case 6:
-          setLocalTime();
-          break;
-        case 7:
-          setLocalDate();
+          if (getpasswd() == 321) {
+            flashRAG(); // Nice sign that we have entered password correctly
+            second_touches = getTouches(1, 1, 4, MAX_LOOPS);
+            switch (second_touches) {
+              case 1:
+                setLocalTime();
+                break;
+              case 2:
+                setLocalDate();
+                break;
+              case 3:
+                setRefTempReading();
+                break;
+              case 4:
+                setRefTempValue();
+                break;
+            }
+          }
           break;
       }
       powerDown();
@@ -164,15 +183,11 @@ void junctionRAG() {
 
 void pelicanRAG()  {
   rag(1,0,0,2000);
-  for (int l = 0; l < 4; l++) {
+  for (int l = 0; l < 6; l++) {
     rag(0,1,0,500);
     rag(0,0,0,500);
   }
-  for (int l = 0; l < 2; l++) {
-    rag(0,0,1,500);
-    rag(0,0,0,500);
-  }
-  rag(0,0,1,5000);
+  rag(0,0,1,6000);
   rag(0,1,0,3000);
   rag(1,0,0,2000);
 }  
@@ -199,6 +214,7 @@ void showDate()  {
   showNumber((rtcDate.year%100)%10);
 }
 
+
 void setLocalTime() {
   int hour, minute;
   getRtcTime();
@@ -224,7 +240,7 @@ void setLocalDate() {
   signalSettingMode();
   monthDay = getTouches(rtcDate.monthDay/10, 0, 3, MAX_LOOPS);
   signalSettingMode();
-  monthDay = monthDay + getTouches(rtcDate.monthDay%10, 0, 9, MAX_LOOPS);
+  monthDay = (monthDay*10) + getTouches(rtcDate.monthDay%10, 0, 9, MAX_LOOPS);
   signalSettingMode();
   month = getTouches(rtcDate.month, 1, 12, MAX_LOOPS);
   signalSettingMode();
@@ -262,6 +278,31 @@ int getTemp() {
   uint8_t high = ADCH; // unlocks both
   cbi(ADCSRA,ADEN);                    // switch Analog to Digitalconverter OFF
   return (high << 8) | low; // combine the two
+}
+
+void setRefTempReading() {
+  delay(1000); // Settle down before reading temp
+  settings_in_eeprom.raw_temp_1 = getTemp();
+  signalSettingMode();
+  write_setting_in_eeprom();
+}
+
+void setRefTempValue() {
+  // Actually value is between 0 - 100, might as well use passwd function
+  settings_in_eeprom.calibrated_temp_1 = getpasswd();
+  signalSettingMode();
+  write_setting_in_eeprom();
+}
+
+int getpasswd() {
+  int entered_pass = 0;
+  signalSettingMode();
+  entered_pass = 100 * getTouches(0, 0, 9, MAX_LOOPS);
+  signalSettingMode();
+  entered_pass = entered_pass + (10 * getTouches(0, 0, 9, MAX_LOOPS));
+  signalSettingMode();
+  entered_pass = entered_pass + getTouches(0, 0, 9, MAX_LOOPS);
+  return entered_pass;
 }
 
 byte getTouches(byte touches, byte min_touch, byte max_touch, byte max_loops) {
