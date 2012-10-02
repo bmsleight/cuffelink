@@ -1,0 +1,17 @@
+Cmp-Mod V01 Created by CvPCB (2011-05-25)-stable date = Mon 20 Aug 2012 20:03:32 BST
+
+BeginCmp
+TimeStamp = /50328819;
+Reference = P1;
+ValeurCmp = DIL8;
+IdModule  = DIP-8__300;
+EndCmp
+
+BeginCmp
+TimeStamp = /50328746;
+Reference = U1;
+ValeurCmp = RV-8564-C2;
+IdModule  = IC;
+EndCmp
+
+EndListe

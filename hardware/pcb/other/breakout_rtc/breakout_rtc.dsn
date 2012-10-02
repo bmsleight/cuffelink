@@ -1,0 +1,139 @@
+(pcb /home/bms/cufflinks/pcb/kicad/breakout_rtc/breakout_rtc.dsn
+  (parser
+    (string_quote ")
+    (space_in_quoted_tokens on)
+    (host_cad "Kicad's PCBNEW")
+    (host_version "(2011-05-25)-stable")
+  )
+  (resolution mil 10)
+  (unit mil)
+  (structure
+    (layer Front
+      (type signal)
+      (property
+        (index 0)
+      )
+    )
+    (layer Back
+      (type signal)
+      (property
+        (index 1)
+      )
+    )
+    (boundary
+      (path pcb 0  4753.9 -3828.7  4753.9 -4429.1  4694.9 -4429.1  3779.5 -4429.1
+            3779.5 -3828.7  4753.9 -3828.7)
+    )
+    (via "Via[0-1]_35:25_mil" "Via[0-1]_35:0_mil")
+    (rule
+      (width 8)
+      (clearance 10.1)
+      (clearance 10.1 (type default_smd))
+      (clearance 2.5 (type smd_smd))
+    )
+  )
+  (placement
+    (component IC
+      (place U1 4547.2 -4114.2 front 0 (PN "RV-8564-C2"))
+    )
+    (component "DIP-8__300"
+      (place P1 4143.7 -4114.2 front 0 (PN DIL8))
+    )
+  )
+  (library
+    (image IC
+      (outline (path signal 7.8  -90.5 102.3  90.5 102.3))
+      (outline (path signal 7.8  90.5 102.3  90.5 -102.3))
+      (outline (path signal 7.8  -90.5 -102.3  90.5 -102.3))
+      (outline (path signal 7.8  -90.5 102.3  -90.5 -102.3))
+      (outline (path signal 7.8  -90.5 -78.7  -82.6 -86.6))
+      (outline (path signal 7.8  -74.8 -94.4  -66.9 -102.3))
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 270) 1 43.3 -78.7)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 270) 2 43.3 -39.3)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 270) 3 43.3 0)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 270) 4 43.3 39.3)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 270) 5 43.3 78.7)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 90) 6 -43.3 78.7)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 90) 7 -43.3 39.3)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 90) 8 -43.3 0)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 90) 9 -43.3 -39.3)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 90) 10 -43.3 -78.7)
+    )
+    (image "DIP-8__300"
+      (outline (path signal 10  -200 50  -150 50))
+      (outline (path signal 10  -150 50  -150 -50))
+      (outline (path signal 10  -150 -50  -200 -50))
+      (outline (path signal 10  -200 100  200 100))
+      (outline (path signal 10  200 100  200 -100))
+      (outline (path signal 10  200 -100  -200 -100))
+      (outline (path signal 10  -200 -100  -200 100))
+      (pin Rect[A]Pad_55x55_mil 1 -150 -150)
+      (pin Round[A]Pad_55_mil 2 -50 -150)
+      (pin Round[A]Pad_55_mil 3 50 -150)
+      (pin Round[A]Pad_55_mil 4 150 -150)
+      (pin Round[A]Pad_55_mil 5 150 150)
+      (pin Round[A]Pad_55_mil 6 50 150)
+      (pin Round[A]Pad_55_mil 7 -50 150)
+      (pin Round[A]Pad_55_mil 8 -150 150)
+    )
+    (padstack Round[A]Pad_55_mil
+      (shape (circle Front 55))
+      (shape (circle Back 55))
+      (attach off)
+    )
+    (padstack Rect[T][0,17.7]Pad_23.6x35.4_mil
+      (shape (rect Front -11.8 0 11.8 35.4))
+      (attach off)
+    )
+    (padstack Rect[A]Pad_55x55_mil
+      (shape (rect Front -27.5 -27.5 27.5 27.5))
+      (shape (rect Back -27.5 -27.5 27.5 27.5))
+      (attach off)
+    )
+    (padstack "Via[0-1]_35:25_mil"
+      (shape (circle Front 35))
+      (shape (circle Back 35))
+      (attach off)
+    )
+    (padstack "Via[0-1]_35:0_mil"
+      (shape (circle Front 35))
+      (shape (circle Back 35))
+      (attach off)
+    )
+  )
+  (network
+    (net "N-000001"
+      (pins U1-7 P1-7)
+    )
+    (net "N-000002"
+      (pins U1-2 P1-2)
+    )
+    (net "N-000004"
+      (pins U1-6 P1-6)
+    )
+    (net "N-000005"
+      (pins U1-1 P1-1)
+    )
+    (net "N-000006"
+      (pins U1-5 P1-5)
+    )
+    (net "N-000007"
+      (pins U1-4 P1-4)
+    )
+    (net "N-000008"
+      (pins U1-10 P1-8)
+    )
+    (class kicad_default "" "N-000001" "N-000002" "N-000004" "N-000005" "N-000006"
+      "N-000007" "N-000008"
+      (circuit
+        (use_via Via[0-1]_35:25_mil)
+      )
+      (rule
+        (width 8)
+        (clearance 10.1)
+      )
+    )
+  )
+  (wiring
+  )
+)

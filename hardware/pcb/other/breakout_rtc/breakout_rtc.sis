@@ -1,0 +1,138 @@
+
+(session breakout_rtc.ses
+  (base_design breakout_rtc.dsn)
+  (placement
+    (resolution mil 10)
+    (component IC
+      (place U1 45472 -41142 front 0)
+    )
+    (component "DIP-8__300"
+      (place P1 41437 -41142 front 0)
+    )
+  )
+  (was_is
+  )
+  (routes 
+    (resolution mil 10)
+    (parser
+      (host_cad "Kicad's PCBNEW")
+      (host_version "(2011-05-25)-stable")
+    )
+    (library_out 
+      (padstack "Via[0-1]_35:25_mil"
+        (shape
+          (circle Front 350 0 0)
+        )
+        (shape
+          (circle Back 350 0 0)
+        )
+        (attach off)
+      )
+      (padstack "Via[0-1]_35:0_mil"
+        (shape
+          (circle Front 350 0 0)
+        )
+        (shape
+          (circle Back 350 0 0)
+        )
+        (attach off)
+      )
+    )
+    (network_out 
+      (net "N-000001"
+        (wire
+          (path Front 80
+            40937 -39642
+            42044 -40749
+            44862 -40749
+          )
+        )
+      )
+      (net "N-000002"
+        (wire
+          (path Front 80
+            45762 -41535
+            45762 -42041
+            44694 -43109
+            41404 -43109
+            40937 -42642
+          )
+        )
+        (wire
+          (path Front 80
+            46082 -41535
+            45762 -41535
+          )
+        )
+      )
+      (net "N-000004"
+        (wire
+          (path Front 80
+            41937 -39642
+            42650 -40355
+            44862 -40355
+          )
+        )
+      )
+      (net "N-000005"
+        (wire
+          (path Front 80
+            39937 -42642
+            40355 -42642
+          )
+        )
+        (wire
+          (path Front 80
+            40355 -42642
+            40355 -43060
+            40649 -43354
+            45390 -43354
+            46082 -42662
+            46082 -41929
+          )
+        )
+      )
+      (net "N-000006"
+        (wire
+          (path Front 80
+            46082 -40355
+            45762 -40355
+          )
+        )
+        (wire
+          (path Front 80
+            42937 -39642
+            45049 -39642
+            45762 -40355
+          )
+        )
+      )
+      (net "N-000007"
+        (wire
+          (path Front 80
+            45762 -40749
+            45433 -41078
+            45433 -42110
+            44901 -42642
+            42937 -42642
+          )
+        )
+        (wire
+          (path Front 80
+            46082 -40749
+            45762 -40749
+          )
+        )
+      )
+      (net "N-000008"
+        (wire
+          (path Front 80
+            39937 -39642
+            42224 -41929
+            44862 -41929
+          )
+        )
+      )
+    )
+  )
+)
