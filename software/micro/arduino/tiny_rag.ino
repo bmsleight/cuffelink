@@ -28,14 +28,15 @@
  Used Thermometer Example
  * http://www.instructables.com/id/Hidden-Arduino-Thermometer/ 
 
- */
+/ */
 
 #include <avr/eeprom.h>
 #include <avr/sleep.h>
 #include <avr/wdt.h>
 #include <TinyWireM.h>  
 
-#define DS1307_ADDRESS 0x68
+#define RV8564C2_WRITE_ADDRESS 81
+#define RV8564C2_START_REGISTER_ADDRESS 0x02
 byte zero = 0x00; //workaround for issue #527
 
 #ifndef cbi
@@ -109,12 +110,13 @@ void setup() {
   touch_calibration = (touch_calibration + 4) / 8;
 
   ragPinsToOutput();
-  flashRAG();
+  showNumber(0); // Visual clue to here comes RTC configuration
+  TinyWireM.begin(); // Open up wire comms to RTC
+  showNumber(setRtcTime(12, 9, 1, 12, 0)); //MUST CONFIGURE IN FUNCTION 01-09-2012, 12:00 
+                                           // Also will report return code (see if rtc comms are okay)
+  showNumber(0); // Visual clue to end of RTC configuration
   powerDown();
-  
-  TinyWireM.begin();
 
-  setRtcTime(12, 9, 1, 12, 0); //MUST CONFIGURE IN FUNCTION 01-09-2012, 12:00
  // Sleep set-up
   setup_watchdog(8);
 }
@@ -328,34 +330,59 @@ byte getTouches(byte touches, byte min_touch, byte max_touch, byte max_loops) {
 }
 
 void getRtcTime() {
-  TinyWireM.beginTransmission(DS1307_ADDRESS);
-  TinyWireM.send(zero);
+
+/*
+Master sends-out the “Start Condition”.
+Master sends-out the “Slave Address”, A2h for the RV-8564-C2; the R/W bit in write mode.
+Acknowledgement from the RV-8564-C2.
+Master sends-out the “Word Address” to the RV-8564-C2.
+Acknowledgement from the RV-8564-C2.
+Master sends-out the “Start Condition”. “Stop Condition” has not been sent.
+Master sends-out the “Slave Address”, A3h for the RV-8564-C2; the R/W bit in read mode.
+Acknowledgement from the RV-8564-C2.
+At this point, the Master becomes a Receiver, the Slave becomes the Transmitter.
+The Slave sends-out the “Data” from the Word Address specified in step 4).
+Acknowledgement from the Master.
+Steps 9) and 10) can be repeated if necessary. The address will be incremented automatically in the RV-8564-C2.
+The Master, addressed as Receiver, can stop data transmission by not generating an acknowledge on the last byte
+that has been sent from the Slave Transmitter. In this event, the Slave-Transmitter must leave the data line HIGH
+to enable the Master to generate a stop condition.
+Master sends-out the “Stop Condition”.
+*/
+  // Master sends-out the “Slave Address”, A2h for the RV-8564-C2; the R/W bit in write mode.
+  // See datasheet fro explaination of 7/8 bits Wire Address.
+  TinyWireM.beginTransmission(RV8564C2_WRITE_ADDRESS); 
+  TinyWireM.send(RV8564C2_START_REGISTER_ADDRESS); // “Word Address” to the RV-8564-C2
+  // Master sends-out the “Start Condition”. “Stop Condition” has not been sent.
+  // Not sure from the datasheet if this command is to be send. But I need to send what is in the buffer.
   TinyWireM.endTransmission();
-
-  TinyWireM.requestFrom(DS1307_ADDRESS, 7);
-
-  rtcDate.second = bcdToDec(TinyWireM.receive());
+  // Master sends-out the “Slave Address”, A3h for the RV-8564-C2; the R/W bit in read mode.
+  TinyWireM.requestFrom(RV8564C2_WRITE_ADDRESS, 7); // Request 7 bytes and send stop at the end.
+  //  showNumber(TinyWireM.available()); // Should be 7
+  //  delay(NUMBER_DELAY*4);
+  rtcDate.second = bcdToDec(TinyWireM.receive() & 0b0111111);
   rtcDate.minute = bcdToDec(TinyWireM.receive());
-  rtcDate.hour = bcdToDec(TinyWireM.receive() & 0b111111); //24 hour time
-  rtcDate.weekDay = bcdToDec(TinyWireM.receive()); //0-6 -> sunday - Saturday
+  rtcDate.hour = bcdToDec(TinyWireM.receive()); //24 hour time
   rtcDate.monthDay = bcdToDec(TinyWireM.receive());
-  rtcDate.month = bcdToDec(TinyWireM.receive());
+  rtcDate.weekDay = bcdToDec(TinyWireM.receive()); //0-6 -> sunday - Saturday
+  rtcDate.month = bcdToDec(TinyWireM.receive() & 0b0111111 );
   rtcDate.year = bcdToDec(TinyWireM.receive());
 }
 
 
-void setRtcTime(byte year, byte month, byte monthDay, byte hour, byte minute) {
-  TinyWireM.beginTransmission(DS1307_ADDRESS);
-  TinyWireM.send(zero); //stop Oscillator
-  TinyWireM.send(decToBcd(0)); // Always ^Dhalfway start through the minute ?
+byte setRtcTime(byte year, byte month, byte monthDay, byte hour, byte minute) {
+  TinyWireM.beginTransmission(RV8564C2_WRITE_ADDRESS);
+  TinyWireM.send(0); // “Word Address” to the RV-8564-C2, starting at Address 0
+  TinyWireM.send(0); // Clear all flag, start the clock.
+  TinyWireM.send(0); // Clear Control / Status 2
+  TinyWireM.send(decToBcd(0));
   TinyWireM.send(decToBcd(minute));
   TinyWireM.send(decToBcd(hour));
-  TinyWireM.send(decToBcd(1)); // WeekDay not used
   TinyWireM.send(decToBcd(monthDay));
-  TinyWireM.send(decToBcd(month));
+  TinyWireM.send(decToBcd(1)); // WeekDay not used
+  TinyWireM.send(decToBcd(month) | 0b10000000 ); // Or century Bit set to 1, 21st Century boy.
   TinyWireM.send(decToBcd(year));
-  TinyWireM.send(zero); //start 
-  TinyWireM.endTransmission();
+  return(TinyWireM.endTransmission()); // Return Success 0 or other code. 
 }
 
 byte decToBcd(byte val){
