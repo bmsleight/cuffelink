@@ -31,12 +31,13 @@
 / */
 
 #include <avr/eeprom.h>
+#include <EEPROM.h>
 #include <avr/sleep.h>
 #include <avr/wdt.h>
 #include <TinyWireM.h>  
 
 #define RV8564C2_WRITE_ADDRESS 81
-#define RV8564C2_START_REGISTER_ADDRESS 0x02
+#define RV8564C2_START_REGISTER_ADDRESS 0x03
 byte zero = 0x00; //workaround for issue #527
 
 #ifndef cbi
@@ -57,15 +58,16 @@ byte zero = 0x00; //workaround for issue #527
 #define MAX_LOOPS 2
 
 #define EEPROM_START_OFFSET 0
+#define EEPROM_START_STORE_NUMBER 128
+#define EEPROM_START_STORE_NUMBER_MAX_LEN 20
+
 
 volatile boolean f_wdt = 1;
 int touch_calibration = 0;
 
 struct {
-  int second;
   int minute;
   int hour; //24 hour time
-  int weekDay;
   int monthDay;
   int month;
   int year;
@@ -74,8 +76,6 @@ struct {
 struct settings_in_eeprom
 {
   byte found_stored_settings; // Must store as byte as defualt value 0xFF, not 0x00 or 0x01
-  int start_count;
-  int green_time;
   int raw_temp_1;
   int calibrated_temp_1;
 } settings_in_eeprom;
@@ -97,7 +97,7 @@ void setup() {
 
   // This gives us time to realease the cufflinks before touch_calibration 
   // ... so the back can be screwed in before touch_calibration starts.
-   for (int l = 0; l < settings_in_eeprom.start_count; l++) {
+   for (int l = 0; l < 11; l++) {
      showNumber(l);
    }
   powerDown();   // Want touch_calibration done with RAGs off
@@ -112,7 +112,7 @@ void setup() {
   ragPinsToOutput();
   showNumber(0); // Visual clue to here comes RTC configuration
   TinyWireM.begin(); // Open up wire comms to RTC
-  showNumber(setRtcTime(12, 9, 1, 12, 0)); //MUST CONFIGURE IN FUNCTION 01-09-2012, 12:00 
+  showNumber(setRtcTime(12, 10, 1, 12, 0)); //MUST CONFIGURE IN FUNCTION 01-10-2012, 12:00 
                                            // Also will report return code (see if rtc comms are okay)
   showNumber(0); // Visual clue to end of RTC configuration
   powerDown();
@@ -123,14 +123,14 @@ void setup() {
 
 
 void loop() {
-  int touches = 0;
-  int second_touches = 0;
+  byte touches = 0;
+//  int second_touches = 0;
   if (f_wdt==1) {  // wait for timed out watchdog / flag is set when a watchdog timeout occurs
     f_wdt=0;       // reset flag
     // If touch sensed then ... 
     if (touched())  { 
       ragPinsToOutput();
-      touches = getTouches(1, 1, 6, MAX_LOOPS);
+      touches = getTouches(1, 1, 8, MAX_LOOPS);
       switch (touches) {
         case 1:
           junctionRAG();
@@ -148,10 +148,15 @@ void loop() {
           showTemp();
           break;
         case 6:
+          showStoredNumber();
+          break;
+        case 7:
           if (getpasswd() == 321) {
             flashRAG(); // Nice sign that we have entered password correctly
-            second_touches = getTouches(1, 1, 4, MAX_LOOPS);
-            switch (second_touches) {
+//            second_touches = getTouches(1, 1, 5, MAX_LOOPS);
+//            switch (second_touches) {
+            touches = getTouches(1, 1, 5, MAX_LOOPS);
+            switch (touches) {
               case 1:
                 setLocalTime();
                 break;
@@ -163,6 +168,9 @@ void loop() {
                 break;
               case 4:
                 setRefTempValue();
+                break;
+              case 5:
+                setStoredNumber();
                 break;
             }
           }
@@ -218,7 +226,7 @@ void showDate()  {
 
 
 void setLocalTime() {
-  int hour, minute;
+  byte hour, minute;
   getRtcTime();
   // Get value by touching
   signalSettingMode();
@@ -233,7 +241,7 @@ void setLocalTime() {
 
 void setLocalDate() {
   // setTime(int hr,int min,int sec,int day, int month, int yr); 
-  int hour, year, month, monthDay, am_or_pm;
+  byte hour, year, month, monthDay, am_or_pm;
   getRtcTime();
   // Get value by touching
   signalSettingMode();
@@ -294,6 +302,39 @@ void setRefTempValue() {
   settings_in_eeprom.calibrated_temp_1 = getpasswd();
   signalSettingMode();
   write_setting_in_eeprom();
+}
+
+void showStoredNumber() {
+// #define EEPROM_START_STORE_NUMBER 128
+// #define EEPROM_START_STORE_NUMBER_MAX_LEN
+//EEPROM.read(a)
+  int address = EEPROM_START_STORE_NUMBER;
+  while( (EEPROM.read(address) != 255) && (address <= EEPROM_START_STORE_NUMBER + EEPROM_START_STORE_NUMBER_MAX_LEN) ) {
+    showNumber(EEPROM.read(address));
+    delay(NUMBER_DELAY*2);
+    address++;
+  }
+}
+
+void setStoredNumber() {
+  int address = EEPROM_START_STORE_NUMBER;
+  byte digit = 0;
+  while( (digit != 11) && (address <= EEPROM_START_STORE_NUMBER + EEPROM_START_STORE_NUMBER_MAX_LEN) ) {
+    signalSettingMode();
+    digit = EEPROM.read(address);
+    if (digit = 255) {
+      digit = 11; // End of number, 11 is entered
+    }
+    digit = getTouches(digit, 0, 11, MAX_LOOPS);
+    delay(NUMBER_DELAY*2);
+    if (digit == 11) {
+      EEPROM.write(address, 255); // End of number, 11 is entered
+    }
+    else {
+      EEPROM.write(address, digit); 
+    }
+    address++;
+  }
 }
 
 int getpasswd() {
@@ -357,15 +398,15 @@ Master sends-out the “Stop Condition”.
   // Not sure from the datasheet if this command is to be send. But I need to send what is in the buffer.
   TinyWireM.endTransmission();
   // Master sends-out the “Slave Address”, A3h for the RV-8564-C2; the R/W bit in read mode.
-  TinyWireM.requestFrom(RV8564C2_WRITE_ADDRESS, 7); // Request 7 bytes and send stop at the end.
+  TinyWireM.requestFrom(RV8564C2_WRITE_ADDRESS, 6); // Request 7 bytes and send stop at the end.
   //  showNumber(TinyWireM.available()); // Should be 7
   //  delay(NUMBER_DELAY*4);
-  rtcDate.second = bcdToDec(TinyWireM.receive() & 0b0111111);
-  rtcDate.minute = bcdToDec(TinyWireM.receive());
-  rtcDate.hour = bcdToDec(TinyWireM.receive()); //24 hour time
-  rtcDate.monthDay = bcdToDec(TinyWireM.receive());
-  rtcDate.weekDay = bcdToDec(TinyWireM.receive()); //0-6 -> sunday - Saturday
-  rtcDate.month = bcdToDec(TinyWireM.receive() & 0b0111111 );
+//  rtcDate.second = bcdToDec(TinyWireM.receive()   & 0b01111111); // & 0bXX to clear out any non-used bit - see datasheet
+  rtcDate.minute = bcdToDec(TinyWireM.receive()   & 0b01111111);
+  rtcDate.hour = bcdToDec(TinyWireM.receive()     & 0b00111111); //24 hour time
+  rtcDate.monthDay = bcdToDec(TinyWireM.receive() & 0b00111111);
+  byte weekDay = bcdToDec(TinyWireM.receive()  & 0b00000111); //0-6 -> sunday - Saturday // weekDay not Used - lack of memory
+  rtcDate.month = bcdToDec(TinyWireM.receive()    & 0b00011111);
   rtcDate.year = bcdToDec(TinyWireM.receive());
 }
 
@@ -380,7 +421,7 @@ byte setRtcTime(byte year, byte month, byte monthDay, byte hour, byte minute) {
   TinyWireM.send(decToBcd(hour));
   TinyWireM.send(decToBcd(monthDay));
   TinyWireM.send(decToBcd(1)); // WeekDay not used
-  TinyWireM.send(decToBcd(month) | 0b10000000 ); // Or century Bit set to 1, 21st Century boy.
+  TinyWireM.send(decToBcd(month & 0b00011111 ) ); // Or century Bit set to 1, 21st Century boy.
   TinyWireM.send(decToBcd(year));
   return(TinyWireM.endTransmission()); // Return Success 0 or other code. 
 }
@@ -419,12 +460,12 @@ void flashRAG() {
   rag(0,0,0,0);
 }
 
-void showNumber(int n) {
+void showNumber(byte n) {
   // I am never goes to change the powers
   // 10, 5, 0
   // max value is 19
-  int remainder = n;
-  int green_v, amber_v, red_v;
+  byte remainder = n;
+  int green_v, amber_v, red_v; // Bizarre int uses less memory than byte
   if (n<20) {
     green_v = n / 10;
     remainder = remainder % 10;
@@ -435,10 +476,7 @@ void showNumber(int n) {
       rag(1,amber_v,green_v,NUMBER_DELAY);
       rag(0,amber_v,green_v,NUMBER_DELAY);
     }
-/*    if ((red_v<2) && (n!=0)) {
-      rag(0,amber_v,green_v,(NUMBER_DELAY*(2-red_v)));
-    }
-    // A lack of LEDs will make it hard to work out 10 or 01 or 100  */
+    // A lack of LEDs will make it hard to work out 10 or 01 or 100 
     if (n==0) {
       rag(1,1,1,(NUMBER_DELAY));
     }
@@ -558,8 +596,6 @@ ISR(WDT_vect) {
 
 void default_setting_in_eeprom() {
   settings_in_eeprom.found_stored_settings = 0;
-  settings_in_eeprom.green_time = 7;
-  settings_in_eeprom.start_count = 11;
   settings_in_eeprom.raw_temp_1 = getTemp();
   settings_in_eeprom.calibrated_temp_1 = 20;
   signalSettingMode();
