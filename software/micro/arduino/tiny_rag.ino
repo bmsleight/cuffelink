@@ -50,6 +50,8 @@ byte zero = 0x00; //workaround for issue #527
 #define RED_PIN 1
 #define AMBER_PIN 4
 #define GREEN_PIN 3
+#define SDA_PIN 0
+#define SCL_PIN 2
 // Pin 0 SDA
 // Pin 2 SCL
 #define PIN_TOUCH 5
@@ -86,7 +88,7 @@ void setup() {
   // Let everyone know the power is on
   // initialize the pins as an output.
   // Hello World!
-  ragPinsToOutput();
+  pinsToOutput();
   // Traditional Flash test
   flashRAG();
   // Load the setting from EEPROM
@@ -109,7 +111,7 @@ void setup() {
   }
   touch_calibration = (touch_calibration + 4) / 8;
 
-  ragPinsToOutput();
+  pinsToOutput();
   showNumber(0); // Visual clue to here comes RTC configuration
   TinyWireM.begin(); // Open up wire comms to RTC
   showNumber(setRtcTime(12, 10, 1, 12, 0)); //MUST CONFIGURE IN FUNCTION 01-10-2012, 12:00 
@@ -129,8 +131,8 @@ void loop() {
     f_wdt=0;       // reset flag
     // If touch sensed then ... 
     if (touched())  { 
-      ragPinsToOutput();
-      touches = getTouches(1, 1, 8, MAX_LOOPS);
+      pinsToOutput();
+      touches = getTouches(1, 1, 7, MAX_LOOPS);
       switch (touches) {
         case 1:
           junctionRAG();
@@ -514,19 +516,23 @@ void rag(boolean red, boolean amber, boolean green, unsigned int period)  {
 void powerDown()  {
   rag(0,0,0,0);
   // Save Power
-  ragPinsToInput();
+  pinsToInput();
 }
 
-void ragPinsToInput()  {
+void pinsToInput()  {
   pinMode(RED_PIN, INPUT);
   pinMode(AMBER_PIN, INPUT);
   pinMode(GREEN_PIN, INPUT);
+  pinMode(SDA_PIN, INPUT);
+  pinMode(SCL_PIN, INPUT);
 }
 
-void ragPinsToOutput()  {
+void pinsToOutput()  {
   pinMode(RED_PIN, OUTPUT);
   pinMode(AMBER_PIN, OUTPUT);
   pinMode(GREEN_PIN, OUTPUT);
+  pinMode(SDA_PIN, OUTPUT);
+  pinMode(SCL_PIN, OUTPUT);
 }
 
 bool touched() {
