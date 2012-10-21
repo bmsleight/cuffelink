@@ -31,9 +31,9 @@
 
 use <Thread_Library.scad>
 
-$fn=360;
+$fn=36;
 //steps_per_turn = 60;
-steps_per_turn = 60;
+steps_per_turn = 6;
 alpha = 0.2725;
 
 width_max = 20;
@@ -47,21 +47,21 @@ battery_diameter = 9.5;
 wire_diameter = 1.23;
 chip_thickness = 1.1;
 led_height= 0.6;
-need_to_make_it_two_lazer_cut_thickness = 1.2;
-plastic_connector_thickness = body_wall_thickness +battery_thickness+.75 + need_to_make_it_two_lazer_cut_thickness;
+need_to_make_it_two_lazer_cut_thickness = 0.8;
+plastic_connector_thickness = body_wall_thickness +battery_thickness+.65 + need_to_make_it_two_lazer_cut_thickness;
 plastic_connector_inner_thickness = 3;
 plastic_connector_battery_space = battery_thickness + wire_diameter/2;
 wiggle_room = 2;
 plastic_battery_hole_diameter = battery_diameter + wire_diameter + wiggle_room;
-cuff_sides_height = 10.5 + need_to_make_it_two_lazer_cut_thickness;
+cuff_sides_height = 9.5 + need_to_make_it_two_lazer_cut_thickness;
 lower_cuff_width = 5;
 lower_stock_length = 12+body_wall_thickness*2;
 lower_bar_length = 12;
 led_hole = 1.5;
 hood_diameter = 2;
 hood_height = 1;
-touch_pads_height = 3.;
-touch_pads_cube_height = 1.6;
+touch_pads_height = 2.5;
+touch_pads_cube_height = 1.2;
 touch_pads_diameter = wire_diameter; //Not 3
 touch_pads_offset = 5.5;
 
@@ -222,7 +222,7 @@ module side_cuff() {
 module cuff_body() {
      color("gold", alpha) {
      translate([0,0,+cuff_sides_height/2-body_wall_thickness/2-1]) top_cuff ();
-     side_cuff();
+*     side_cuff();
     }
 }
 
@@ -303,7 +303,7 @@ module disc_cuff() {
      translate([-6.5,6.5,-0.9])  rotate([0,180,180]) linear_extrude(height = 0.6) import("base_for_text.dxf");
 
     }
-    cylinder(h = 1.6, r1 = battery_diameter/2, r2 = battery_diameter/2 -1, center = false);
+*    cylinder(h = 0.9, r1 = battery_diameter/2-1, r2 = battery_diameter/2 -2, center = false);
 }
 
 module disc_cuff_with_hole() {
@@ -337,7 +337,7 @@ module cuff_lower() {
 }
 
 module master() {
-*    translate([0,0,0]) electronics();
+    translate([0,0,-0.5]) electronics();
 *    translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_connector();
      translate([0,0,0]) cuff_body();
      translate([0,0,-cuff_sides_height/2-lower_stock_length/2+body_wall_thickness+need_to_make_it_two_lazer_cut_thickness/2]) cuff_lower();
