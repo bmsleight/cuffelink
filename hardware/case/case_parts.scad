@@ -318,7 +318,8 @@ module disc_cuff() {
 module disc_cuff_with_hole() {
     difference() {
         disc_cuff();
-        translate([0,0,0.2]) cylinder(h = 1.4, r = 2.5, center = false);
+           // 1.2 offset
+        translate([0,0,0]) cylinder(h = 2.8, r = 5.5, center = false);
     }
 }
 
