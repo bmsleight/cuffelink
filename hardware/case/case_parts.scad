@@ -31,9 +31,10 @@
 
 use <Thread_Library.scad>
 
-$fn=36;
+$fn=80;
 //steps_per_turn = 60;
-steps_per_turn = 6;
+// Max steps_per_turn = 43; When using cut.
+steps_per_turn = 40;
 alpha = 0.2725;
 
 width_max = 20;
@@ -45,10 +46,10 @@ pcb_diameter = 14.5;
 battery_thickness = 2.7;
 battery_diameter = 9.5;
 wire_diameter = 1.23;
-chip_thickness = 1.1;
-led_height= 0.6;
+chip_thickness = 1.3;
+led_height= 0.8;
 need_to_make_it_two_lazer_cut_thickness = 0.8;
-plastic_connector_thickness = body_wall_thickness +battery_thickness+.65 + need_to_make_it_two_lazer_cut_thickness;
+plastic_connector_thickness = body_wall_thickness +battery_thickness + need_to_make_it_two_lazer_cut_thickness-.5;
 plastic_connector_inner_thickness = 3;
 plastic_connector_battery_space = battery_thickness + wire_diameter/2;
 wiggle_room = 2;
@@ -61,7 +62,7 @@ led_hole = 1.5;
 hood_diameter = 2;
 hood_height = 1;
 touch_pads_height = 2.5;
-touch_pads_cube_height = 1.2;
+touch_pads_cube_height = 1.4;
 touch_pads_diameter = wire_diameter; //Not 3
 touch_pads_offset = 5.5;
 
@@ -100,7 +101,7 @@ module ground_wire() {
 }
 
 module chip() {
-    // Led = 1.6 x 0.8 x 0.6
+    // Led = 1.6 x 0.8 x 0.8
     color("black", alpha) {
         cube(size = [3.05, 6.4, chip_thickness], center = true);
     }
@@ -141,6 +142,14 @@ module hood() {
         translate([-hood_diameter,-hood_diameter/2,1/2]) rotate([0,90,0]) triangle(hood_diameter,1,hood_diameter*2);
         translate([0,0,-.1+(hood_diameter+hood_height)/2]) cube([hood_diameter,hood_diameter,hood_diameter], center=true);
     }
+
+/* // Hood inner - light tubes
+    translate([0,0, -hood_height*1.5]) difference() {
+        cylinder(h=hood_height*2, r=hood_diameter/2, center=true);
+        cylinder(h=hood_height*4, r=led_hole/2, center=true);
+    }
+*/
+
 }
 
 module rag_outline() {
@@ -191,7 +200,7 @@ module side_cuff() {
     difference() {
         cylinder(h=cuff_sides_height, r=width_max/2, center=true);
         cylinder(h=cuff_sides_height*2, r=(width_max/2)-body_wall_thickness, center=true);
-        translate([0,0, cuff_sides_height -1]) cylinder(h=cuff_sides_height, r=width_max/2-1, center=true); // Make top boarder a little less thick
+        translate([0,0, cuff_sides_height -1]) cylinder(h=cuff_sides_height, r=width_max/2+1, center=true); // Make top boarder a little less thick
     }
 
 
@@ -222,7 +231,7 @@ module side_cuff() {
 module cuff_body() {
      color("gold", alpha) {
      translate([0,0,+cuff_sides_height/2-body_wall_thickness/2-1]) top_cuff ();
-*     side_cuff();
+     side_cuff();
     }
 }
 
@@ -337,8 +346,8 @@ module cuff_lower() {
 }
 
 module master() {
-    translate([0,0,-0.5]) electronics();
-*    translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_connector();
+    translate([0,0,-0.7]) electronics();
+    translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_connector();
      translate([0,0,0]) cuff_body();
      translate([0,0,-cuff_sides_height/2-lower_stock_length/2+body_wall_thickness+need_to_make_it_two_lazer_cut_thickness/2]) cuff_lower();
 }
@@ -346,8 +355,8 @@ module master() {
 
 difference() {
 master();
-*translate([12.5,12.5,0]) cube(size = [25,25,50], center=true); // Cut Away
+translate([12.5,12.5,0]) cube(size = [25,25,50], center=true); // Cut Away
 }
 
-translate([22, 0 ,0]) master();
+* translate([22, 0 ,0]) master();
 
