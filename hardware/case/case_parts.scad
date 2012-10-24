@@ -37,7 +37,7 @@ $fn=80;
 steps_per_turn = 40;
 alpha = 0.2725;
 
-width_max = 20;
+width_max = 19;
 
 body_wall_thickness = 1.6;
 pcb_gap = 0.25;
@@ -189,7 +189,11 @@ module top_cuff() {
         translate([0,touch_pads_offset,0]) touch_pads();
         translate([0,-touch_pads_offset,0]) touch_pads();
     }
-
+   // Light blockers
+    translate([0,0,-(body_wall_thickness+1)/2]) {
+        translate([0,-1.5,0]) cube([hood_diameter ,0.5,1], center=true);
+        translate([0,1.5,0]) cube([hood_diameter ,0.5,1], center=true);
+    }
 
 }
 
@@ -348,7 +352,7 @@ module cuff_lower() {
 
 module master() {
     translate([0,0,-0.7]) electronics();
-    translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_connector();
+*    translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_connector();
      translate([0,0,0]) cuff_body();
      translate([0,0,-cuff_sides_height/2-lower_stock_length/2+body_wall_thickness+need_to_make_it_two_lazer_cut_thickness/2]) cuff_lower();
 }
