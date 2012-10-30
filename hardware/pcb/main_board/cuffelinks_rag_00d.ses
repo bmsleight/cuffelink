@@ -1,0 +1,406 @@
+
+(session cuffelinks_rag_00d.ses
+  (base_design cuffelinks_rag_00d.dsn)
+  (placement
+    (resolution mil 10)
+    (component PINTST
+      (place P1 39370 -38878 back 180)
+    )
+    (component SM0603
+      (place D1 39370 -38189 front 0)
+      (place D2 39370 -39370 front 0)
+      (place D3 39370 -40551 front 0)
+      (place R1 40846 -37795 front 0)
+      (place R2 37008 -39272 front 270)
+    )
+    (component PINTST::1
+      (place P2 40551 -41043 front 0)
+    )
+    (component IC
+      (place IC2 40945 -39370 front 0)
+    )
+    (component "analog-devices-TSSOP8"
+      (place IC1 38091 -39370 front 90)
+    )
+    (component P3
+      (place P3 39370 -37205 front 0)
+      (place P4 39370 -41535 front 0)
+    )
+  )
+  (was_is
+  )
+  (routes 
+    (resolution mil 10)
+    (parser
+      (host_cad "Kicad's PCBNEW")
+      (host_version "(2011-05-25)-stable")
+    )
+    (library_out 
+      (padstack "Via[0-1]_35:25_mil"
+        (shape
+          (circle Front 350 0 0)
+        )
+        (shape
+          (circle Back 350 0 0)
+        )
+        (attach off)
+      )
+      (padstack "Via[0-1]_35:0_mil"
+        (shape
+          (circle Front 350 0 0)
+        )
+        (shape
+          (circle Back 350 0 0)
+        )
+        (attach off)
+      )
+    )
+    (network_out 
+      (net "N-000003"
+        (wire
+          (path Front 80
+            37708 -40142
+            39370 -38480
+            39370 -37205
+          )
+        )
+        (wire
+          (path Front 80
+            39370 -41535
+            38080 -41535
+            37708 -41163
+            37708 -40521
+          )
+        )
+        (wire
+          (path Front 80
+            37708 -40521
+            37708 -40142
+          )
+        )
+      )
+      (net "N-000004"
+        (wire
+          (path Front 80
+            39070 -39370
+            38802 -39370
+          )
+        )
+        (wire
+          (path Front 80
+            38218 -40521
+            38218 -40142
+          )
+        )
+        (wire
+          (path Front 80
+            38218 -40142
+            38802 -39558
+            38802 -39370
+          )
+        )
+      )
+      (net "N-000005"
+        (wire
+          (path Front 80
+            39070 -38189
+            38802 -38189
+          )
+        )
+        (wire
+          (path Front 80
+            38218 -38219
+            38218 -38598
+          )
+        )
+        (wire
+          (path Front 80
+            38218 -38598
+            38661 -38598
+            38802 -38457
+            38802 -38189
+          )
+        )
+      )
+      (net "N-000006"
+        (wire
+          (path Front 80
+            39070 -40551
+            38802 -40551
+          )
+        )
+        (wire
+          (path Front 80
+            37964 -40521
+            37964 -40900
+          )
+        )
+        (wire
+          (path Front 80
+            37964 -40900
+            38721 -40900
+            38802 -40819
+            38802 -40551
+          )
+        )
+      )
+      (net "N-000007"
+        (wire
+          (path Front 80
+            40814 -37795
+            40814 -38802
+            40707 -38909
+            40707 -39629
+            41235 -40157
+          )
+        )
+        (wire
+          (path Back 80
+            39370 -38878
+            39370 -38786
+            40086 -38070
+          )
+        )
+        (wire
+          (path Back 80
+            37645 -38922
+            37689 -38878
+            39370 -38878
+          )
+        )
+        (wire
+          (path Front 80
+            40546 -37795
+            40278 -37795
+          )
+        )
+        (wire
+          (path Front 80
+            40086 -38070
+            40278 -37878
+            40278 -37795
+          )
+        )
+        (via "Via[0-1]_35:25_mil" 40086 -38070
+        )
+        (wire
+          (path Front 80
+            41555 -40157
+            41235 -40157
+          )
+        )
+        (wire
+          (path Front 80
+            37708 -38219
+            37708 -38598
+          )
+        )
+        (wire
+          (path Front 80
+            37708 -38598
+            37645 -38661
+            37645 -38922
+          )
+        )
+        (wire
+          (path Front 80
+            37376 -38972
+            37426 -38922
+            37645 -38922
+          )
+        )
+        (wire
+          (path Front 80
+            37008 -38972
+            37376 -38972
+          )
+        )
+        (via "Via[0-1]_35:25_mil" 37645 -38922
+        )
+        (wire
+          (path Front 80
+            40546 -37795
+            40814 -37795
+          )
+        )
+      )
+      (net "N-000009"
+        (wire
+          (path Front 80
+            40335 -38583
+            40015 -38583
+          )
+        )
+        (wire
+          (path Front 80
+            39739 -38715
+            39883 -38715
+            40015 -38583
+          )
+        )
+        (wire
+          (path Front 80
+            39739 -38715
+            39739 -38626
+            39670 -38557
+            39670 -38189
+          )
+          (type protect)
+        )
+        (wire
+          (path Front 80
+            39670 -39370
+            39670 -39002
+            39739 -38933
+            39739 -38715
+          )
+          (type protect)
+        )
+        (wire
+          (path Front 80
+            39670 -39370
+            39402 -39370
+          )
+        )
+        (wire
+          (path Front 80
+            39402 -39370
+            39402 -40081
+            39301 -40182
+          )
+        )
+        (wire
+          (path Front 80
+            39301 -40182
+            39402 -40283
+            39402 -40551
+          )
+        )
+        (wire
+          (path Front 80
+            38474 -40521
+            38813 -40182
+            39301 -40182
+          )
+        )
+        (wire
+          (path Front 80
+            39670 -40551
+            39938 -40551
+          )
+        )
+        (wire
+          (path Front 80
+            40551 -41043
+            40430 -41043
+            39938 -40551
+          )
+        )
+        (wire
+          (path Front 80
+            39670 -40551
+            39402 -40551
+          )
+        )
+      )
+      (net "N-000010"
+        (wire
+          (path Front 80
+            38474 -38219
+            38474 -37710
+            38480 -37704
+          )
+        )
+        (wire
+          (path Back 80
+            40267 -37219
+            39782 -37704
+            38480 -37704
+          )
+        )
+        (wire
+          (path Front 80
+            41146 -37795
+            40570 -37219
+            40267 -37219
+          )
+        )
+        (via "Via[0-1]_35:25_mil" 40267 -37219
+        )
+        (via "Via[0-1]_35:25_mil" 38480 -37704
+        )
+        (wire
+          (path Front 80
+            41441 -38583
+            41555 -38583
+          )
+        )
+        (wire
+          (path Front 80
+            41441 -38583
+            41235 -38583
+          )
+        )
+        (wire
+          (path Front 80
+            41146 -38117
+            41146 -38494
+            41235 -38583
+          )
+        )
+        (wire
+          (path Front 80
+            41146 -37795
+            41146 -38117
+          )
+        )
+      )
+      (net "N-000011"
+        (wire
+          (path Front 80
+            37964 -39236
+            38070 -39236
+          )
+        )
+        (wire
+          (path Back 80
+            41073 -38993
+            40256 -39810
+            38644 -39810
+            38070 -39236
+          )
+        )
+        (wire
+          (path Front 80
+            41555 -38977
+            41235 -38977
+          )
+        )
+        (wire
+          (path Front 80
+            41073 -38993
+            41219 -38993
+            41235 -38977
+          )
+        )
+        (via "Via[0-1]_35:25_mil" 41073 -38993
+        )
+        (via "Via[0-1]_35:25_mil" 38070 -39236
+        )
+        (wire
+          (path Front 80
+            37964 -38219
+            37964 -39236
+          )
+        )
+        (wire
+          (path Front 80
+            37964 -39236
+            37628 -39572
+            37008 -39572
+          )
+        )
+      )
+    )
+  )
+)

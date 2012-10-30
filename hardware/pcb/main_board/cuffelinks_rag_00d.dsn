@@ -1,0 +1,247 @@
+(pcb /home/bms/cuffelink/hardware/pcb/main_board/cuffelinks_rag_00d.dsn
+  (parser
+    (string_quote ")
+    (space_in_quoted_tokens on)
+    (host_cad "Kicad's PCBNEW")
+    (host_version "(2011-05-25)-stable")
+  )
+  (resolution mil 10)
+  (unit mil)
+  (structure
+    (layer Front
+      (type signal)
+      (property
+        (index 0)
+      )
+    )
+    (layer Back
+      (type signal)
+      (property
+        (index 1)
+      )
+    )
+    (boundary
+      (path pcb 0  3937 -3651.6  3887.8 -3651.6  3878 -3661.4  3809.1 -3661.4
+            3759.9 -3710.6  3740.2 -3730.3  3730.4 -3730.3  3671.3 -3789.4
+            3671.3 -3828.7  3641.7 -3858.3  3641.7 -4005.9  3661.4 -4025.6
+            3681.1 -4045.3  3681.1 -4074.8  3730.3 -4124  3730.3 -4153.5
+            3769.7 -4192.9  3828.8 -4192.9  3858.3 -4222.4  4025.5 -4222.4
+            4035.4 -4232.3  4055.1 -4212.6  4094.5 -4173.2  4124 -4143.7
+            4153.6 -4143.7  4183.1 -4114.2  4183.1 -4084.6  4212.6 -4055.1
+            4212.6 -4025.6  4232.3 -4005.9  4232.3 -3887.8  4212.6 -3868.1
+            4212.6 -3818.9  4183.1 -3789.4  4153.5 -3759.8  4153.5 -3720.5
+            4114.2 -3720.5  4065 -3671.3  4015.8 -3671.3  3996.1 -3651.6
+            3937 -3651.6)
+    )
+    (via "Via[0-1]_35:25_mil" "Via[0-1]_35:0_mil")
+    (rule
+      (width 8)
+      (clearance 10.1)
+      (clearance 10.1 (type default_smd))
+      (clearance 2.5 (type smd_smd))
+    )
+  )
+  (placement
+    (component PINTST
+      (place P1 3937 -3887.8 back 180 (PN Vcc))
+    )
+    (component ""
+      (place G*** 4065 -3878 back 270 (PN LOGO))
+    )
+    (component SM0603
+      (place D1 3937 -3818.9 front 0 (PN R))
+      (place D2 3937 -3937 front 0 (PN A))
+      (place D3 3937 -4055.1 front 0 (PN G))
+      (place R1 4084.6 -3779.5 front 0 (PN 4K7))
+      (place R2 3700.8 -3927.2 front 270 (PN 4K7))
+    )
+    (component PINTST::1
+      (place P2 4055.1 -4104.3 front 0 (PN Gnd))
+    )
+    (component IC
+      (place IC2 4094.5 -3937 front 0)
+    )
+    (component "analog-devices-TSSOP8"
+      (place IC1 3809.1 -3937 front 90)
+    )
+    (component P3
+      (place P3 3937 -3720.5 front 0 (PN Tch))
+      (place P4 3937 -4153.5 front 0 (PN Tch))
+    )
+  )
+  (library
+    (image PINTST
+      (outline (path signal 5  31.6 0  30 -9.7  25.5 -18.5  18.5 -25.5  9.7 -30  0 -31.6
+            -9.7 -30  -18.5 -25.5  -25.5 -18.5  -30 -9.7  -31.6 0  -30 9.7
+            -25.5 18.5  -18.5 25.5  -9.7 30  0 31.6  9.7 30  18.5 25.5  25.5 18.5
+            30 9.7))
+      (pin Round[T]Pad_157.5_mil 1 0 0)
+    )
+    (image ""
+    )
+    (image SM0603
+      (outline (path signal 5  -45 25  45 25))
+      (outline (path signal 5  45 25  45 -25))
+      (outline (path signal 5  45 -25  -45 -25))
+      (outline (path signal 5  -45 -25  -45 25))
+      (pin Rect[T]Pad_25x45_mil 1 -30 0)
+      (pin Rect[T]Pad_25x45_mil 2 30 0)
+    )
+    (image PINTST::1
+      (outline (path signal 5  31.6 0  30 -9.7  25.5 -18.5  18.5 -25.5  9.7 -30  0 -31.6
+            -9.7 -30  -18.5 -25.5  -25.5 -18.5  -30 -9.7  -31.6 0  -30 9.7
+            -25.5 18.5  -18.5 25.5  -9.7 30  0 31.6  9.7 30  18.5 25.5  25.5 18.5
+            30 9.7))
+      (pin Round[A]Pad_45_mil 1 0 0)
+    )
+    (image IC
+      (outline (path signal 7.8  -90.5 102.3  90.5 102.3))
+      (outline (path signal 7.8  90.5 102.3  90.5 -102.3))
+      (outline (path signal 7.8  -90.5 -102.3  90.5 -102.3))
+      (outline (path signal 7.8  -90.5 102.3  -90.5 -102.3))
+      (outline (path signal 7.8  -90.5 -78.7  -82.6 -86.6))
+      (outline (path signal 7.8  -74.8 -94.4  -66.9 -102.3))
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 270) 1 43.3 -78.7)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 270) 2 43.3 -39.3)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 270) 3 43.3 0)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 270) 4 43.3 39.3)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 270) 5 43.3 78.7)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 90) 6 -43.3 78.7)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 90) 7 -43.3 39.3)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 90) 8 -43.3 0)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 90) 9 -43.3 -39.3)
+      (pin Rect[T][0,17.7]Pad_23.6x35.4_mil (rotate 90) 10 -43.3 -78.7)
+    )
+    (image "analog-devices-TSSOP8"
+      (outline (path signal 2.6  -125.9 33.4  -86.6 33.4))
+      (outline (path signal 2.6  -86.6 33.4  -86.6 43.3))
+      (outline (path signal 2.6  -125.9 43.3  -86.6 43.3))
+      (outline (path signal 2.6  -125.9 33.4  -125.9 43.3))
+      (outline (path signal 2.6  -125.9 7.8  -86.6 7.8))
+      (outline (path signal 2.6  -86.6 7.8  -86.6 17.7))
+      (outline (path signal 2.6  -125.9 17.7  -86.6 17.7))
+      (outline (path signal 2.6  -125.9 7.8  -125.9 17.7))
+      (outline (path signal 2.6  -125.9 -17.7  -86.6 -17.7))
+      (outline (path signal 2.6  -86.6 -17.7  -86.6 -7.8))
+      (outline (path signal 2.6  -125.9 -7.8  -86.6 -7.8))
+      (outline (path signal 2.6  -125.9 -17.7  -125.9 -7.8))
+      (outline (path signal 2.6  -125.9 -43.3  -86.6 -43.3))
+      (outline (path signal 2.6  -86.6 -43.3  -86.6 -33.4))
+      (outline (path signal 2.6  -125.9 -33.4  -86.6 -33.4))
+      (outline (path signal 2.6  -125.9 -43.3  -125.9 -33.4))
+      (outline (path signal 2.6  86.6 -43.3  125.9 -43.3))
+      (outline (path signal 2.6  125.9 -43.3  125.9 -33.4))
+      (outline (path signal 2.6  86.6 -33.4  125.9 -33.4))
+      (outline (path signal 2.6  86.6 -43.3  86.6 -33.4))
+      (outline (path signal 2.6  86.6 -17.7  125.9 -17.7))
+      (outline (path signal 2.6  125.9 -17.7  125.9 -7.8))
+      (outline (path signal 2.6  86.6 -7.8  125.9 -7.8))
+      (outline (path signal 2.6  86.6 -17.7  86.6 -7.8))
+      (outline (path signal 2.6  86.6 7.8  125.9 7.8))
+      (outline (path signal 2.6  125.9 7.8  125.9 17.7))
+      (outline (path signal 2.6  86.6 17.7  125.9 17.7))
+      (outline (path signal 2.6  86.6 7.8  86.6 17.7))
+      (outline (path signal 2.6  86.6 33.4  125.9 33.4))
+      (outline (path signal 2.6  125.9 33.4  125.9 43.3))
+      (outline (path signal 2.6  86.6 43.3  125.9 43.3))
+      (outline (path signal 2.6  86.6 33.4  86.6 43.3))
+      (outline (path signal 7.8  -84.6 -55.1  84.6 -55.1))
+      (outline (path signal 7.8  84.6 -55.1  84.6 55.1))
+      (outline (path signal 7.8  84.6 55.1  -84.6 55.1))
+      (outline (path signal 7.8  -84.6 55.1  -84.6 -55.1))
+      (outline (path signal 0.1  -55 25.5  -55.5 22.8  -56.7 20.3  -58.7 18.3  -61.2 17.1
+            -63.9 16.6  -66.6 17.1  -69.1 18.3  -71.1 20.3  -72.3 22.8  -72.8 25.5
+            -72.3 28.2  -71.1 30.7  -69.1 32.7  -66.6 33.9  -63.9 34.4  -61.2 33.9
+            -58.7 32.7  -56.7 30.7  -55.5 28.2))
+      (pin Rect[T]Pad_47.2x13.7_mil 1 -115.1 38.3)
+      (pin Rect[T]Pad_47.2x13.7_mil 2 -115.1 12.7)
+      (pin Rect[T]Pad_47.2x13.7_mil 3 -115.1 -12.7)
+      (pin Rect[T]Pad_47.2x13.7_mil 4 -115.1 -38.3)
+      (pin Rect[T]Pad_47.2x13.7_mil 5 115.1 -38.3)
+      (pin Rect[T]Pad_47.2x13.7_mil 6 115.1 -12.7)
+      (pin Rect[T]Pad_47.2x13.7_mil 7 115.1 12.7)
+      (pin Rect[T]Pad_47.2x13.7_mil 8 115.1 38.3)
+    )
+    (image P3
+      (pin Rect[T]Pad_122x82.7_mil 1 0 0)
+    )
+    (padstack Round[T]Pad_157.5_mil
+      (shape (circle Front 157.5))
+      (attach off)
+    )
+    (padstack Round[A]Pad_45_mil
+      (shape (circle Front 45))
+      (shape (circle Back 45))
+      (attach off)
+    )
+    (padstack Rect[T][0,17.7]Pad_23.6x35.4_mil
+      (shape (rect Front -11.8 0 11.8 35.4))
+      (attach off)
+    )
+    (padstack Rect[T]Pad_25x45_mil
+      (shape (rect Front -12.5 -22.5 12.5 22.5))
+      (attach off)
+    )
+    (padstack Rect[T]Pad_47.2x13.7_mil
+      (shape (rect Front -23.6 -6.85 23.6 6.85))
+      (attach off)
+    )
+    (padstack Rect[T]Pad_122x82.7_mil
+      (shape (rect Front -61 -41.35 61 41.35))
+      (attach off)
+    )
+    (padstack "Via[0-1]_35:25_mil"
+      (shape (circle Front 35))
+      (shape (circle Back 35))
+      (attach off)
+    )
+    (padstack "Via[0-1]_35:0_mil"
+      (shape (circle Front 35))
+      (shape (circle Back 35))
+      (attach off)
+    )
+  )
+  (network
+    (net "N-000003"
+      (pins IC1-1 P3-1 P4-1)
+    )
+    (net "N-000004"
+      (pins D2-1 IC1-3)
+    )
+    (net "N-000005"
+      (pins D1-1 IC1-6)
+    )
+    (net "N-000006"
+      (pins D3-1 IC1-2)
+    )
+    (net "N-000007"
+      (pins P1-1 R1-1 R2-1 IC2-1 IC1-8)
+    )
+    (net "N-000009"
+      (pins D1-2 D2-2 D3-2 P2-1 IC2-6 IC1-4)
+    )
+    (net "N-000010"
+      (pins R1-2 IC2-5 IC1-5)
+    )
+    (net "N-000011"
+      (pins R2-2 IC2-4 IC1-7)
+    )
+    (class kicad_default "" "N-000003" "N-000004" "N-000005" "N-000006" "N-000007"
+      "N-000009" "N-000010" "N-000011"
+      (circuit
+        (use_via Via[0-1]_35:25_mil)
+      )
+      (rule
+        (width 8)
+        (clearance 10.1)
+      )
+    )
+  )
+  (wiring
+    (wire (path Front 8  3973.9 -3862.6  3967 -3855.7)(net "N-000009")(type protect))
+    (wire (path Front 8  3973.9 -3893.3  3973.9 -3862.6)(net "N-000009")(type protect))
+    (wire (path Front 8  3967 -3900.2  3973.9 -3893.3)(net "N-000009")(type protect))
+    (wire (path Front 8  3967 -3818.9  3967 -3855.7)(net "N-000009")(type protect))
+    (wire (path Front 8  3967 -3937  3967 -3900.2)(net "N-000009")(type protect))
+  )
+)

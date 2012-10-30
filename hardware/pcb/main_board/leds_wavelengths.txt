@@ -1,0 +1,8 @@
+
+http://www.legislation.gov.uk/uksi/2002/3113/schedule/8/made
+
+Approximate RGB values for Visible Wavelengths
+
+Red - d62939 214 41 57 ~ 710nm (718)
+Amber - f7b54a 147 181 74 ~ 600nm
+
