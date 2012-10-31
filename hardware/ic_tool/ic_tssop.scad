@@ -106,6 +106,75 @@ module leg_far_side()
     }
 }
 
-chip();
-leg_near_side();
-leg_far_side();
+
+module wire_inner()
+{
+    cylinder(h=3, r=(0.2), center=true);
+}
+
+/*
+module wire_curve()
+{
+    translate([0,0,5]) rotate(a=[0,90,0])
+    {
+        difference() 
+        {
+            rotate_extrude(convexity = 10, $fn = 100) translate([2, 0, 0]) circle(r = 0.2, $fn = 100);
+           translate([3,0,0]) cube([6,6,6], center=true);
+           translate([-4,-2,0]) rotate(a=[0,0,45]) cube([8,8,8], center=true);
+        }
+    }
+}
+*/
+
+
+module wire_curve()
+{
+    translate([0,0,5]) rotate(a=[0,90,0])
+    {
+        difference() 
+        {
+            rotate_extrude(convexity = 10, $fn = 100) translate([2, 0, 0]) circle(r = 0.2, $fn = 100);
+           translate([3,0,0]) cube([6,6,6], center=true);
+           translate([-3,-3,0]) cube([6,6,6], center=true);
+        }
+    }
+}
+
+
+module wire_ends()
+{
+    translate([-leg_pitch/2,-9.2,2.3]) rotate(a=[-45-leg_mid_angle,180,0])   wire_curve();
+    translate([-leg_pitch*3/2,-2.25,1.]) rotate(a=[-leg_mid_angle,0,0])   wire_inner();
+    translate([leg_pitch*3/2,-9.2,2.3]) rotate(a=[-45-leg_mid_angle,180,0])   wire_curve();
+    translate([leg_pitch/2,-2.25,1.]) rotate(a=[-leg_mid_angle,0,0])   wire_inner();
+}
+
+module hollows()
+{
+wire_ends();
+rotate(a=[0,0,180]) wire_ends();
+
+translate([0,0,0]) cube([chip_length+1,chip_width*1.05,chip_height*1.5], center=true);
+
+translate([0,-2.1,0]) rotate(a=[-leg_mid_angle,0,0])   cube([chip_length+1,1,2], center=true);
+
+rotate(a=[0,0,180]) translate([0,-2.1,0]) rotate(a=[-leg_mid_angle,0,0])   cube([chip_length+1,1,2], center=true);
+}
+
+module solid_s()
+{
+    translate([0,0,1.66]) cube([4,7,4], center=true);
+}
+
+
+*chip();
+*leg_near_side();
+*leg_far_side();
+
+difference() 
+{
+  solid_s();
+  hollows();
+}
+*wire_curve();
