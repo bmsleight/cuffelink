@@ -148,6 +148,12 @@ module wire_ends()
     translate([-leg_pitch*3/2,-2.25,1.]) rotate(a=[-leg_mid_angle,0,0])   wire_inner();
     translate([leg_pitch*3/2,-9.2,2.3]) rotate(a=[-45-leg_mid_angle,180,0])   wire_curve();
     translate([leg_pitch/2,-2.25,1.]) rotate(a=[-leg_mid_angle,0,0])   wire_inner();
+
+   translate([-leg_pitch/2,-4.2,2.3]) rotate(a=[+45+leg_mid_angle,0,0]) cylinder(h=2, r=(0.5), center=true);
+   translate([leg_pitch*3/2,-4.2,2.3]) rotate(a=[+45+leg_mid_angle,0,0]) cylinder(h=2, r=(0.5), center=true);
+
+    translate([-leg_pitch*3/2,-2.25,1.]) rotate(a=[-leg_mid_angle,0,0]) translate([0,0,2.5]) cylinder(h=2, r=(0.5), center=true);
+    translate([leg_pitch/2,-2.25,1.]) rotate(a=[-leg_mid_angle,0,0]) translate([0,0,2.5]) cylinder(h=2, r=(0.5), center=true);
 }
 
 module hollows()
@@ -172,7 +178,10 @@ module solid_s()
 *leg_near_side();
 *leg_far_side();
 
-difference() 
+  hollows();
+
+
+* difference() 
 {
   solid_s();
   hollows();
