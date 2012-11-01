@@ -1,4 +1,4 @@
-PCBNEW-BOARD Version 1 date Thu 01 Nov 2012 21:07:24 GMT
+PCBNEW-BOARD Version 1 date Thu 01 Nov 2012 21:38:17 GMT
 
 # Created by Pcbnew(2011-05-25)-stable
 
@@ -473,6 +473,12 @@ Ro 0.000000 0.000000 0.000000
 $EndSHAPE3D
 $EndMODULE  DIP-8__300
 $TEXTPCB
+Te "Open Source Software and Hardware"
+nl "http://cuffelink.com/2012/11/01/pelican/"
+Po 33661 27559 400 533 80 0
+De 20 0 0 Normal
+$EndTEXTPCB
+$TEXTPCB
 Te "Traffic Lights - Pelican Crossing"
 Po 34055 28150 600 800 120 0
 De 21 1 0 Normal
@@ -673,11 +679,6 @@ $TEXTPCB
 Te "Brendan Sleight"
 nl "01-Nov-2012"
 Po 25984 24803 400 533 100 900
-De 20 0 0 Normal
-$EndTEXTPCB
-$TEXTPCB
-Te "Traffic Lights - Pelican Crossing"
-Po 34055 28150 600 800 120 0
 De 20 0 0 Normal
 $EndTEXTPCB
 $DRAWSEGMENT

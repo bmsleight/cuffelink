@@ -1,5 +1,5 @@
 M48
-;DRILL file {PCBnew (2011-05-25)-stable} date Thu 01 Nov 2012 20:09:23 GMT
+;DRILL file {PCBnew (2011-05-25)-stable} date Thu 01 Nov 2012 21:39:28 GMT
 ;FORMAT={-:-/ absolute / metric / decimal}
 FMAT,2
 METRIC,TZ
@@ -11,6 +11,9 @@ G90
 G05
 M71
 T1
+X68.087Y-63.962
+X68.087Y-69.042
+X74.590Y-72.967
 X91.618Y-69.903
 T2
 X63.190Y-57.691
