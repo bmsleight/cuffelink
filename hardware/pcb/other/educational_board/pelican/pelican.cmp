@@ -1,0 +1,59 @@
+Cmp-Mod V01 Genere par PcbNew le Thu 01 Nov 2012 16:56:27 GMT
+
+BeginCmp
+TimeStamp = /50927E9E;
+Reference = CELL1;
+ValeurCmp = CR1220;
+IdModule  = Cell Holder;
+EndCmp
+
+BeginCmp
+TimeStamp = /5092813D;
+Reference = D1;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /5092814C;
+Reference = D2;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /5092815E;
+Reference = D3;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /50928169;
+Reference = D4;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /5092816D;
+Reference = D5;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /509279D7;
+Reference = IC1;
+ValeurCmp = ATTINY25-45-85/DIP-SO;
+IdModule  = DIP-8__300;
+EndCmp
+
+BeginCmp
+TimeStamp = /5092801A;
+Reference = SW1;
+ValeurCmp = SW_PUSH;
+IdModule  = SW_PUSH_SMALL;
+EndCmp
+
+EndListe

@@ -1,0 +1,90 @@
+# EESchema Netlist Version 1.1 created  Thu 01 Nov 2012 16:55:47 GMT
+(
+ ( /50927E9E Cell Holder CELL1 CR1220
+  ( 1 N-000004 )
+  ( 2 N-000001 )
+ )
+ ( /5092813D LED-5MM D1 LED
+  ( 1 N-000008 )
+  ( 2 N-000001 )
+ )
+ ( /5092814C LED-5MM D2 LED
+  ( 1 N-000003 )
+  ( 2 N-000001 )
+ )
+ ( /5092815E LED-5MM D3 LED
+  ( 1 N-000007 )
+  ( 2 N-000001 )
+ )
+ ( /50928169 LED-5MM D4 LED
+  ( 1 N-000002 )
+  ( 2 N-000001 )
+ )
+ ( /5092816D LED-5MM D5 LED
+  ( 1 N-000006 )
+  ( 2 N-000001 )
+ )
+ ( /509279D7 DIP-8__300 IC1 ATTINY25-45-85/DIP-SO
+  ( 1 N-000005 )
+  ( 2 N-000006 )
+  ( 3 N-000002 )
+  ( 4 N-000001 )
+  ( 5 N-000007 )
+  ( 6 N-000003 )
+  ( 7 N-000008 )
+  ( 8 N-000004 )
+ )
+ ( /5092801A SW_PUSH_SMALL SW1 SW_PUSH
+  ( 1 N-000005 )
+  ( 2 N-000001 )
+ )
+)
+*
+{ Allowed footprints by component:
+$component D1
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component D2
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component D3
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component D4
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component D5
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$endfootprintlist
+}

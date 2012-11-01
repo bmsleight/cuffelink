@@ -1,0 +1,239 @@
+(pcb /home/bms/cuffelink/hardware/pcb/other/educational_board/pelican/pelican.dsn
+  (parser
+    (string_quote ")
+    (space_in_quoted_tokens on)
+    (host_cad "Kicad's PCBNEW")
+    (host_version "(2011-05-25)-stable")
+  )
+  (resolution mil 10)
+  (unit mil)
+  (structure
+    (layer Front
+      (type signal)
+      (property
+        (index 0)
+      )
+    )
+    (layer Back
+      (type signal)
+      (property
+        (index 1)
+      )
+    )
+    (boundary
+      (path pcb 0  3818.9 -2677.2  3996.1 -2677.2  3996.1 -2637.8  3956.7 -2637.8
+            3956.7 -2165.4  4389.8 -2165.4  4389.8 -2637.8  4350.4 -2637.8
+            4350.4 -2677.2  4389.8 -2677.2  4389.8 -2716.5  4448.8 -2716.5
+            4448.8 -2913.4  3129.9 -2913.4  3129.9 -3129.9  2578.7 -3129.9
+            2578.7 -2913.4  2460.6 -2913.4  2362.2 -2913.4  2362.2 -2677.2
+            2421.3 -2677.2  2421.3 -2185  2854.3 -2185  2854.3 -2677.2  2913.4 -2677.2
+            3110.2 -2677.2  3110.2 -2519.7  3070.9 -2519.7  3070.9 -1555.1
+            3385.8 -1555.1  3385.8 -2519.7  3346.5 -2519.7  3346.5 -2677.2
+            3582.7 -2677.2  3582.7 -2519.7  3543.3 -2519.7  3543.3 -1850.4
+            3858.3 -1850.4  3858.3 -2500  3858.3 -2519.7  3818.9 -2519.7
+            3818.9 -2677.2)
+    )
+    (via "Via[0-1]_35:25_mil" "Via[0-1]_35:0_mil")
+    (rule
+      (width 8)
+      (clearance 10.1)
+      (clearance 10.1 (type default_smd))
+      (clearance 2.5 (type smd_smd))
+    )
+  )
+  (placement
+    (component Cell
+      (place CELL1 2657.5 -3031.5 front 0 (PN CR1220))
+    )
+    (component SW_PUSH_SMALL
+      (place SW1 4173.2 -2460.6 front 0 (PN SW_PUSH))
+    )
+    (component "LED-5MM"
+      (place D1 3228.3 -1712.6 front 0 (PN LED))
+      (place D2 3228.3 -2007.9 front 0 (PN LED))
+      (place D3 3228.3 -2322.8 front 0 (PN LED))
+      (place D4 3700.8 -2007.9 front 0 (PN LED))
+      (place D5 3700.8 -2322.8 front 0 (PN LED))
+    )
+    (component "DIP-8__300"
+      (place IC1 2637.8 -2421.3 front 90 (PN ATTINY45))
+    )
+  )
+  (library
+    (image Cell
+      (outline (path signal 15  472.4 0  472.4 -98.4))
+      (outline (path signal 15  472.4 -98.4  275.6 -98.4))
+      (outline (path signal 15  472.4 0  472.4 98.4))
+      (outline (path signal 15  472.4 98.4  275.6 98.4))
+      (outline (path signal 15  295.9 0  281.4 -91.4  239.4 -173.9  173.9 -239.4  91.4 -281.4
+            0 -295.9  -91.4 -281.4  -173.9 -239.4  -239.4 -173.9  -281.4 -91.4
+            -295.9 0  -281.4 91.4  -239.4 173.9  -173.9 239.4  -91.4 281.4
+            0 295.9  91.4 281.4  173.9 239.4  239.4 173.9  281.4 91.4))
+      (pin Round[A]Pad_60_mil 1 0 0)
+      (pin Round[A]Pad_60_mil 2 393 0)
+    )
+    (image SW_PUSH_SMALL
+      (outline (path signal 5  100 0  95.1 -30.9  80.9 -58.7  58.7 -80.9  30.9 -95.1  0 -100
+            -30.9 -95.1  -58.7 -80.9  -80.9 -58.7  -95.1 -30.9  -100 0  -95.1 30.9
+            -80.9 58.7  -58.7 80.9  -30.9 95.1  0 100  30.9 95.1  58.7 80.9
+            80.9 58.7  95.1 30.9))
+      (outline (path signal 5  -150 150  150 150))
+      (outline (path signal 5  150 150  150 -150))
+      (outline (path signal 5  150 -150  -150 -150))
+      (outline (path signal 5  -150 150  -150 -150))
+      (pin Round[A]Pad_55_mil 1 150 100)
+      (pin Round[A]Pad_55_mil 2 150 -100)
+      (pin Round[A]Pad_55_mil 1@1 -150 100)
+      (pin Round[A]Pad_55_mil 2@1 -150 -100)
+    )
+    (image "LED-5MM"
+      (outline (path signal 8  112 -75  112 75))
+      (outline (path signal 3  80.7 0  77.2 -21.8  67.2 -41.5  51.5 -57.2  31.8 -67.2  10 -70.7
+            -11.8 -67.2  -31.5 -57.2  -47.2 -41.5  -57.2 -21.8  -60.7 0
+            -57.2 21.8  -47.2 41.5  -31.5 57.2  -11.8 67.2  10 70.7  31.8 67.2
+            51.5 57.2  67.2 41.5  77.2 21.8))
+      (pin Round[A]Pad_66_mil 1 -50 0)
+      (pin Round[A]Pad_66_mil 2 50 0)
+    )
+    (image "DIP-8__300"
+      (outline (path signal 10  -200 50  -150 50))
+      (outline (path signal 10  -150 50  -150 -50))
+      (outline (path signal 10  -150 -50  -200 -50))
+      (outline (path signal 10  -200 100  200 100))
+      (outline (path signal 10  200 100  200 -100))
+      (outline (path signal 10  200 -100  -200 -100))
+      (outline (path signal 10  -200 -100  -200 100))
+      (pin Rect[A]Pad_55x55_mil 1 -150 -150)
+      (pin Round[A]Pad_55_mil 2 -50 -150)
+      (pin Round[A]Pad_55_mil 3 50 -150)
+      (pin Round[A]Pad_55_mil 4 150 -150)
+      (pin Round[A]Pad_55_mil 5 150 150)
+      (pin Round[A]Pad_55_mil 6 50 150)
+      (pin Round[A]Pad_55_mil 7 -50 150)
+      (pin Round[A]Pad_55_mil 8 -150 150)
+    )
+    (padstack Round[A]Pad_55_mil
+      (shape (circle Front 55))
+      (shape (circle Back 55))
+      (attach off)
+    )
+    (padstack Round[A]Pad_60_mil
+      (shape (circle Front 60))
+      (shape (circle Back 60))
+      (attach off)
+    )
+    (padstack Round[A]Pad_66_mil
+      (shape (circle Front 66))
+      (shape (circle Back 66))
+      (attach off)
+    )
+    (padstack Rect[A]Pad_55x55_mil
+      (shape (rect Front -27.5 -27.5 27.5 27.5))
+      (shape (rect Back -27.5 -27.5 27.5 27.5))
+      (attach off)
+    )
+    (padstack "Via[0-1]_35:25_mil"
+      (shape (circle Front 35))
+      (shape (circle Back 35))
+      (attach off)
+    )
+    (padstack "Via[0-1]_35:0_mil"
+      (shape (circle Front 35))
+      (shape (circle Back 35))
+      (attach off)
+    )
+  )
+  (network
+    (net "N-000001"
+      (pins CELL1-2 SW1-2 SW1-2@1 D1-2 D2-2 D3-2 D4-2 D5-2 IC1-4)
+    )
+    (net "N-000002"
+      (pins D4-1 IC1-3)
+    )
+    (net "N-000003"
+      (pins D2-1 IC1-6)
+    )
+    (net "N-000004"
+      (pins CELL1-1 IC1-8)
+    )
+    (net "N-000005"
+      (pins SW1-1 SW1-1@1 IC1-1)
+    )
+    (net "N-000006"
+      (pins D5-1 IC1-2)
+    )
+    (net "N-000007"
+      (pins D3-1 IC1-5)
+    )
+    (net "N-000008"
+      (pins D1-1 IC1-7)
+    )
+    (class kicad_default "" "N-000001" "N-000002" "N-000003" "N-000004" "N-000005"
+      "N-000006" "N-000007" "N-000008"
+      (circuit
+        (use_via Via[0-1]_35:25_mil)
+      )
+      (rule
+        (width 8)
+        (clearance 10.1)
+      )
+    )
+  )
+  (wiring
+    (wire (path Back 8  3750.8 -2007.9  3750.8 -2322.8)(net "N-000001")(type protect))
+    (wire (path Front 8  4023.2 -2560.6  4323.2 -2560.6)(net "N-000001")(type protect))
+    (wire (path Back 8  3750.8 -2322.8  3750.8 -2699.4)(net "N-000001")(type protect))
+    (wire (path Back 8  3050.5 -2950.8  3278.3 -2723)(net "N-000001")(type protect))
+    (wire (path Back 8  3050.5 -3031.5  3050.5 -2950.8)(net "N-000001")(type protect))
+    (wire (path Back 8  3278.3 -2322.8  3278.3 -2723)(net "N-000001")(type protect))
+    (wire (path Back 8  3278.3 -2322.8  3278.3 -2007.9  3278.3 -1712.6)(net "N-000001")(type protect))
+    (wire (path Back 8  3649.9 -2800.3  3750.8 -2699.4)(net "N-000001")(type protect))
+    (wire (path Back 8  3355.6 -2800.3  3649.9 -2800.3)(net "N-000001")(type protect))
+    (wire (path Back 8  3278.3 -2723  3355.6 -2800.3)(net "N-000001")(type protect))
+    (wire (path Front 8  2712.8 -2346.3  2787.8 -2271.3)(net "N-000001")(type protect))
+    (wire (path Front 8  2712.8 -2693.8  2712.8 -2346.3)(net "N-000001")(type protect))
+    (wire (path Front 8  3050.5 -3031.5  2712.8 -2693.8)(net "N-000001")(type protect))
+    (wire (path Back 8  3607 -2432.6  3607 -2752.1)(net "N-000002")(type protect))
+    (wire (path Back 8  3602.2 -2427.8  3607 -2432.6)(net "N-000002")(type protect))
+    (wire (path Back 8  3602.2 -2056.5  3602.2 -2427.8)(net "N-000002")(type protect))
+    (wire (path Back 8  3650.8 -2007.9  3602.2 -2056.5)(net "N-000002")(type protect))
+    (wire (path Front 8  2732 -2427.1  2787.8 -2371.3)(net "N-000002")(type protect))
+    (wire (path Front 8  2732 -2659.7  2732 -2427.1)(net "N-000002")(type protect))
+    (wire (path Front 8  2824.4 -2752.1  2732 -2659.7)(net "N-000002")(type protect))
+    (wire (path Front 8  3607 -2752.1  2824.4 -2752.1)(net "N-000002")(type protect))
+    (wire (path Back 8  2819 -2702.5  2487.8 -2371.3)(net "N-000003")(type protect))
+    (wire (path Back 8  3132.4 -2702.5  2819 -2702.5)(net "N-000003")(type protect))
+    (wire (path Back 8  3141.7 -2693.2  3132.4 -2702.5)(net "N-000003")(type protect))
+    (wire (path Back 8  3141.7 -2506  3141.7 -2693.2)(net "N-000003")(type protect))
+    (wire (path Back 8  3097.5 -2461.8  3141.7 -2506)(net "N-000003")(type protect))
+    (wire (path Back 8  3097.5 -2088.7  3097.5 -2461.8)(net "N-000003")(type protect))
+    (wire (path Back 8  3178.3 -2007.9  3097.5 -2088.7)(net "N-000003")(type protect))
+    (wire (path Front 8  4023.2 -2360.6  4323.2 -2360.6)(net "N-000005")(type protect))
+    (wire (path Front 8  2830 -2513.5  2787.8 -2471.3)(net "N-000006")(type protect))
+    (wire (path Front 8  2830 -2695.9  2830 -2513.5)(net "N-000006")(type protect))
+    (wire (path Front 8  2836.1 -2702  2830 -2695.9)(net "N-000006")(type protect))
+    (wire (path Front 8  3604.9 -2702  2836.1 -2702)(net "N-000006")(type protect))
+    (wire (path Front 8  3650.8 -2656.1  3604.9 -2702)(net "N-000006")(type protect))
+    (wire (path Front 8  3650.8 -2322.8  3650.8 -2656.1)(net "N-000006")(type protect))
+    (wire (path Back 8  3187.4 -2331.9  3178.3 -2322.8)(net "N-000007")(type protect))
+    (wire (path Back 8  3187.4 -2699.7  3187.4 -2331.9)(net "N-000007")(type protect))
+    (wire (path Back 8  3132 -2755.1  3187.4 -2699.7)(net "N-000007")(type protect))
+    (wire (path Back 8  2763.5 -2755.1  3132 -2755.1)(net "N-000007")(type protect))
+    (wire (path Back 8  2521.6 -2513.2  2763.5 -2755.1)(net "N-000007")(type protect))
+    (wire (path Back 8  2447.9 -2513.2  2521.6 -2513.2)(net "N-000007")(type protect))
+    (wire (path Back 8  2445.7 -2511  2447.9 -2513.2)(net "N-000007")(type protect))
+    (wire (path Back 8  2445.7 -2313.4  2445.7 -2511)(net "N-000007")(type protect))
+    (wire (path Back 8  2487.8 -2271.3  2445.7 -2313.4)(net "N-000007")(type protect))
+    (wire (path Back 8  2537.4 -2471.3  2487.8 -2471.3)(net "N-000008")(type protect))
+    (wire (path Back 8  2789.5 -2723.4  2537.4 -2471.3)(net "N-000008")(type protect))
+    (wire (path Back 8  3137.6 -2723.4  2789.5 -2723.4)(net "N-000008")(type protect))
+    (wire (path Back 8  3163.7 -2697.3  3137.6 -2723.4)(net "N-000008")(type protect))
+    (wire (path Back 8  3163.7 -2466.6  3163.7 -2697.3)(net "N-000008")(type protect))
+    (wire (path Back 8  3130.5 -2433.4  3163.7 -2466.6)(net "N-000008")(type protect))
+    (wire (path Back 8  3130.5 -2231.5  3130.5 -2433.4)(net "N-000008")(type protect))
+    (wire (path Back 8  3228.3 -2133.7  3130.5 -2231.5)(net "N-000008")(type protect))
+    (wire (path Back 8  3228.3 -1762.6  3228.3 -2133.7)(net "N-000008")(type protect))
+    (wire (path Back 8  3178.3 -1712.6  3228.3 -1762.6)(net "N-000008")(type protect))
+    (via "Via[0-1]_35:25_mil"  3607 -2752.1 (net "N-000002")(type protect))
+  )
+)
