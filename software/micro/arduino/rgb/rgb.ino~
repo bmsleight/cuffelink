@@ -1,0 +1,64 @@
+/* 
+ Traffic Light Cufflinks 
+ (c) Brendan M. Sleight 2012
+ This file is part of Cuffelink.com project
+
+*/
+
+#define RED_PIN 2
+#define BLUE_PIN 1
+#define GREEN_PIN 0
+// RGB - but keep the red as one unit and Green as 10, make Blue=5
+
+
+
+void setup() {                
+  pinMode(RED_PIN, OUTPUT);
+  pinMode(BLUE_PIN, OUTPUT);
+  pinMode(GREEN_PIN, OUTPUT);
+}
+
+void loop() {
+  light(3,3,3, 1000);
+  light(3,3,3, 1000);
+  light(0,0,1, 1000);
+  light(1,2,3, 1000);
+  light(0,0,1, 1000);
+}
+
+
+void light(byte r, byte g, byte b, int wait) {
+  unsigned long microseconds;
+  byte strobe_counter = 0;
+  microseconds = millis();
+
+  while((microseconds + wait)>millis()) {
+    if(r>=strobe_counter) {
+      digitalWrite(RED_PIN, HIGH);
+    }
+    else {
+      digitalWrite(RED_PIN, LOW);
+    }
+    if(g>=strobe_counter) {
+      digitalWrite(GREEN_PIN, HIGH);
+    }
+     else {
+      digitalWrite(GREEN_PIN, LOW);
+    }
+    if(b>=strobe_counter) {
+      digitalWrite(BLUE_PIN, HIGH);
+    }
+    else {
+      digitalWrite(BLUE_PIN, LOW);
+    }
+    strobe_counter++;
+    if(strobe_counter>3) {
+      strobe_counter=0;
+    }
+  }
+  digitalWrite(RED_PIN, LOW);
+  digitalWrite(BLUE_PIN, HIGH);
+  digitalWrite(BLUE_PIN, LOW);
+}
+
+*/
