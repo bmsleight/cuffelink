@@ -31,17 +31,18 @@
 
 use <Thread_Library.scad>
 
-$fn=80;
+// 360 and 180 normally
+$fn=360;
 //steps_per_turn = 60;
 // Max steps_per_turn = 43; When using cut.
-steps_per_turn = 40;
-alpha = 0.2725;
+steps_per_turn = 43;
+alpha = 0.9725;
 
 width_max = 19;
 
 body_wall_thickness = 1.6;
 pcb_gap = 0.25;
-pcb_thickness = 1.6;
+pcb_thickness = 0.4;
 pcb_diameter = 14.5;
 battery_thickness = 2.7;
 battery_diameter = 9.5;
@@ -54,14 +55,14 @@ plastic_connector_inner_thickness = 3;
 plastic_connector_battery_space = battery_thickness + wire_diameter/2;
 wiggle_room = 2;
 plastic_battery_hole_diameter = battery_diameter + wire_diameter + wiggle_room;
-cuff_sides_height = 9.5 + need_to_make_it_two_lazer_cut_thickness;
+cuff_sides_height = 8.3 + need_to_make_it_two_lazer_cut_thickness;
 lower_cuff_width = 5;
 lower_stock_length = 12+body_wall_thickness*2;
 lower_bar_length = 12;
 led_hole = 1.5;
 hood_diameter = 2;
 hood_height = 1;
-touch_pads_height = 2.5;
+touch_pads_height = 1.75;
 touch_pads_cube_height = 1.4;
 touch_pads_diameter = wire_diameter; //Not 3
 touch_pads_offset = 5.5;
@@ -126,7 +127,7 @@ module electronics() {
     translate([0,0,electronics_thickness/2-chip_thickness+led_height/2]) led_array();
     translate([-3.5,0,electronics_thickness/2-chip_thickness/2]) chip();
     translate([0,0,electronics_thickness/2-chip_thickness-pcb_thickness/2]) pcb_base();
-    translate([0,wire_diameter/2,electronics_thickness/2-chip_thickness-pcb_thickness-battery_thickness/2]) battery_cr937();
+*    translate([0,wire_diameter/2,electronics_thickness/2-chip_thickness-pcb_thickness-battery_thickness/2]) battery_cr937();
     translate([0,-battery_diameter/2,electronics_thickness/2-chip_thickness-pcb_thickness-battery_thickness/2]) ground_wire();
     eecho(-battery_diameter/2,-pcb_thickness/2);
     eecho(electronics_thickness);
@@ -182,7 +183,7 @@ module top_cuff() {
         translate([0,0,0]) hood();
         translate([0,3,0]) hood();
         translate([0,-3,0]) hood();
-        rag_outline();
+        translate([0,0,0]) rag_outline();
     }
     // Bottom marking, touch pad collums
     translate([0,0,-(body_wall_thickness+touch_pads_height)/2]) {
@@ -191,8 +192,8 @@ module top_cuff() {
     }
    // Light blockers
     translate([0,0,-(body_wall_thickness+1)/2]) {
-        translate([0,-1.5,0]) cube([hood_diameter ,0.5,1], center=true);
-        translate([0,1.5,0]) cube([hood_diameter ,0.5,1], center=true);
+        translate([0,-1.5,0]) cube([1.6,0.5,1], center=true);
+        translate([0,1.5,0]) cube([1.6,0.5,1], center=true);
     }
 
 }
@@ -216,7 +217,7 @@ module side_cuff() {
         translate([0,0,-body_wall_thickness/2])  
         trapezoidThreadNegativeSpace(
                 length=body_wall_thickness,
-                pitch=0.6,	
+                pitch=0.75,		
                 pitchRadius=(width_max/2)-body_wall_thickness - .3,  // Opening - (pitch*HeightToPitch) 
                 threadHeightToPitch=0.5,
                 profileRatio=0.5,
@@ -226,6 +227,7 @@ module side_cuff() {
                 backlash=0.1,
                 stepsPerTurn=steps_per_turn
                 );
+        cylinder(h=body_wall_thickness*2, r=(width_max/2)-body_wall_thickness*1.5, center=true);
     }
 
 
@@ -243,6 +245,23 @@ module cuff_body() {
 // Engrave text
 //            
 
+module plastic_reduced() {
+    difference() {
+        cylinder(h=plastic_connector_thickness*2, r=width_max/2, center=true);
+        // Last number is the reducer
+        cylinder(h=plastic_connector_thickness*2, r=width_max/2-body_wall_thickness-0.25, center=true);
+    }
+}
+
+module plastic_connector_reduced() {
+    color("navy", alpha) {
+    difference() {
+        plastic_connector();
+        cylinder(h=plastic_connector_thickness*2, r=plastic_battery_hole_diameter/2-0.3, center=true);
+        plastic_reduced();
+    }
+    }
+}
 
 module plastic_connector() {
     color("navy", alpha) {
@@ -265,12 +284,12 @@ module plastic_connector() {
                 profileRatio=0.5,
                 threadAngle=30,
                 RH=true,
-                clearance=0.1,
+                clearance=0.0,
                 backlash=0.1,
                 stepsPerTurn=steps_per_turn
                 );
         // Remove the bottom - as thread will add in a peice
-        translate([0,0,plastic_connector_thickness/2+body_wall_thickness]) cylinder(h=plastic_connector_thickness, r=width_max/2-body_wall_thickness, center=true);
+        translate([0,0,plastic_connector_thickness/2+body_wall_thickness/2]) cylinder(h=plastic_connector_thickness, r=width_max/2-body_wall_thickness, center=true);
 
         }
 
@@ -278,13 +297,13 @@ module plastic_connector() {
         difference() { 
             trapezoidThread( 
                 length=body_wall_thickness,
-                pitch=0.6,	
+                pitch=0.75,	
                 pitchRadius=(width_max/2)-body_wall_thickness - .3,  // Opening - (pitch*HeightToPitch) 
                 threadHeightToPitch=0.5,
                 profileRatio=0.5,
                 threadAngle=30,
                 RH=true,
-                clearance=0.1,
+                clearance=0.0,
                 backlash=0.1,
                 stepsPerTurn=steps_per_turn
                 );
@@ -325,6 +344,8 @@ module disc_cuff_with_hole() {
            // 1.2 offset
         translate([0,0,0]) cylinder(h = 2.8, r = 5.5, center = false);
     }
+*    cylinder(h = 1.15, r1 = 3, r2 = 4, center = false);
+*    cylinder(h = 1.15, r1 = body_wall_thickness, r2 = body_wall_thickness, center = false);
 }
 
 module stork_cuff() {
@@ -351,17 +372,17 @@ module cuff_lower() {
 }
 
 module master() {
-    translate([0,0,-0.7]) electronics();
-*    translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_connector();
-     translate([0,0,0]) cuff_body();
+ *   translate([0,0,-0.7]) electronics();
+*    translate([0,0,-cuff_sides_height/2+plastic_connector_thickness/2]) plastic_connector_reduced();
+*     translate([0,0,0]) cuff_body();
      translate([0,0,-cuff_sides_height/2-lower_stock_length/2+body_wall_thickness+need_to_make_it_two_lazer_cut_thickness/2]) cuff_lower();
 }
 
 
 difference() {
 master();
-translate([12.5,12.5,0]) cube(size = [25,25,50], center=true); // Cut Away
+*  translate([12.5,12.5,12.5]) cube(size = [25,25,50], center=true); // Cut Away
 }
 
-* translate([22, 0 ,0]) master();
+translate([22, 0 ,0]) master();
 
