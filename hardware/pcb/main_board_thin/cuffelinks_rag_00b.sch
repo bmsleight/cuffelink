@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date Wed 12 Sep 2012 22:18:27 BST
+EESchema Schematic File Version 2  date Thu 08 Nov 2012 22:22:00 GMT
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -31,13 +31,14 @@ LIBS:contrib
 LIBS:valves
 LIBS:attiny_
 LIBS:RV-8564-C2
+LIBS:cuffelinks_rag_00b-cache
 EELAYER 25  0
 EELAYER END
 $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "12 sep 2012"
+Date "8 nov 2012"
 Rev ""
 Comp ""
 Comment1 ""
@@ -45,6 +46,21 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
+Wire Wire Line
+	6700 3200 6850 3200
+Connection ~ 6850 2800
+Wire Wire Line
+	6850 3200 6850 2800
+Wire Wire Line
+	6450 3200 6350 3200
+Connection ~ 6350 1250
+Wire Wire Line
+	6350 3200 6350 1250
+Wire Wire Line
+	6150 3200 6050 3200
+Connection ~ 6050 1450
+Wire Wire Line
+	6050 3200 6050 1450
 Connection ~ 6800 1400
 Wire Wire Line
 	7000 1400 6250 1400
@@ -123,6 +139,62 @@ Wire Wire Line
 	5600 2250 6250 2250
 Wire Wire Line
 	6250 2250 6250 1400
+Wire Wire Line
+	5800 1650 5800 3200
+Connection ~ 5800 1650
+Wire Wire Line
+	5800 3200 5900 3200
+Connection ~ 6300 1250
+Wire Wire Line
+	5600 3200 5700 3200
+Wire Wire Line
+	5700 3200 5700 2250
+Connection ~ 5700 2250
+$Comp
+L TST BGnd1
+U 1 1 509C2FAB
+P 6700 3200
+F 0 "BGnd1" H 6700 3500 40  0000 C CNN
+F 1 "Tch" H 6700 3450 30  0000 C CNN
+	1    6700 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L TST B1
+U 1 1 509C2F5F
+P 5600 3200
+F 0 "B1" H 5600 3500 40  0000 C CNN
+F 1 "Tch" H 5600 3450 30  0000 C CNN
+	1    5600 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L TST B5
+U 1 1 509C2E9E
+P 6450 3200
+F 0 "B5" H 6450 3500 40  0000 C CNN
+F 1 "Tch" H 6450 3450 30  0000 C CNN
+	1    6450 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L TST B6
+U 1 1 509C2E98
+P 6150 3200
+F 0 "B6" H 6150 3500 40  0000 C CNN
+F 1 "Tch" H 6150 3450 30  0000 C CNN
+	1    6150 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L TST B7
+U 1 1 509C2E94
+P 5900 3200
+F 0 "B7" H 5900 3500 40  0000 C CNN
+F 1 "Tch" H 5900 3450 30  0000 C CNN
+	1    5900 3200
+	1    0    0    -1  
+$EndComp
 $Comp
 L TST P3
 U 1 1 502D5EAA

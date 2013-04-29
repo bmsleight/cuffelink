@@ -1,4 +1,4 @@
-update=Fri 24 Aug 2012 21:50:08 BST
+update=Thu 08 Nov 2012 22:26:20 GMT
 version=1
 last_client=cvpcb
 [general]
@@ -34,6 +34,7 @@ LibName10=dip_sockets
 LibName11=libs/Micro_Crystal_RV-3029
 LibName12=libs/analog-devices
 LibName13=libs/touch_pad
+LibName14=libs/Burn_Pad
 LibDir=
 [eeschema]
 version=1

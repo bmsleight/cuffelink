@@ -1,4 +1,39 @@
-Cmp-Mod V01 Genere par PcbNew le Sat 18 Aug 2012 23:48:40 BST
+Cmp-Mod V01 Created by CvPCB (2011-05-25)-stable date = Thu 08 Nov 2012 22:26:35 GMT
+
+BeginCmp
+TimeStamp = /509C2F5F;
+Reference = B1;
+ValeurCmp = Tch;
+IdModule  = B1;
+EndCmp
+
+BeginCmp
+TimeStamp = /509C2E9E;
+Reference = B5;
+ValeurCmp = Tch;
+IdModule  = B1;
+EndCmp
+
+BeginCmp
+TimeStamp = /509C2E98;
+Reference = B6;
+ValeurCmp = Tch;
+IdModule  = B1;
+EndCmp
+
+BeginCmp
+TimeStamp = /509C2E94;
+Reference = B7;
+ValeurCmp = Tch;
+IdModule  = B1;
+EndCmp
+
+BeginCmp
+TimeStamp = /509C2FAB;
+Reference = BGnd1;
+ValeurCmp = Tch;
+IdModule  = B1;
+EndCmp
 
 BeginCmp
 TimeStamp = /4FF4A74E;
@@ -24,7 +59,7 @@ EndCmp
 BeginCmp
 TimeStamp = /4FF4A3C3;
 Reference = IC1;
-ValeurCmp = ATTINY85;
+ValeurCmp = ATTINY45;
 IdModule  = analog-devices-TSSOP8;
 EndCmp
 

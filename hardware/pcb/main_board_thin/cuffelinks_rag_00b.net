@@ -1,72 +1,75 @@
-# EESchema Netlist Version 1.1 created  Wed 12 Sep 2012 22:35:48 BST
+# EESchema Netlist Version 1.1 created  Thu 08 Nov 2012 22:26:35 GMT
 (
- ( /502D5EAA $noname  P3 Tch {Lib=TST}
-  (    1 N-000003 )
+ ( /509C2F5F B1 B1 Tch
+  ( 1 N-000001 )
  )
- ( /501EC3BD $noname  R2 4K7 {Lib=R}
-  (    1 N-000007 )
-  (    2 N-000011 )
+ ( /509C2E9E B1 B5 Tch
+  ( 1 N-000007 )
  )
- ( /501EC303 $noname  R1 4K7 {Lib=R}
-  (    1 N-000007 )
-  (    2 N-000010 )
+ ( /509C2E98 B1 B6 Tch
+  ( 1 N-000009 )
  )
- ( /501EB76B $noname  P4 Tch {Lib=TST}
-  (    1 N-000003 )
+ ( /509C2E94 B1 B7 Tch
+  ( 1 N-000011 )
  )
- ( /501EB5EE MODULE  IC2 RV-8564-C2 {Lib=RV-8564-C2}
-  (    1 N-000007 )
-  (    2 ? )
-  (    4 N-000011 )
-  (    5 N-000010 )
-  (    6 N-000009 )
-  (    7 ? )
-  (   10 ? )
+ ( /509C2FAB B1 BGnd1 Tch
+  ( 1 N-000010 )
  )
- ( /501EB3A0 $noname  P1 Vcc {Lib=TST}
-  (    1 N-000007 )
+ ( /4FF4A74E SM0603 D1 R
+  ( 1 N-000009 )
+  ( 2 N-000010 )
  )
- ( /4FF5D9E6 $noname  P2 Gnd {Lib=CONN_1}
-  (    1 N-000009 )
+ ( /4FF4A75D SM0603 D2 A
+  ( 1 N-000002 )
+  ( 2 N-000010 )
  )
- ( /4FF4A765 $noname  D3 G {Lib=LED}
-  (    1 N-000006 )
-  (    2 N-000009 )
+ ( /4FF4A765 SM0603 D3 G
+  ( 1 N-000003 )
+  ( 2 N-000010 )
  )
- ( /4FF4A75D $noname  D2 A {Lib=LED}
-  (    1 N-000004 )
-  (    2 N-000009 )
+ ( /4FF4A3C3 analog-devices-TSSOP8 IC1 ATTINY45
+  ( 1 N-000001 )
+  ( 2 N-000003 )
+  ( 3 N-000002 )
+  ( 4 N-000010 )
+  ( 5 N-000007 )
+  ( 6 N-000009 )
+  ( 7 N-000011 )
+  ( 8 N-000004 )
  )
- ( /4FF4A74E $noname  D1 R {Lib=LED}
-  (    1 N-000005 )
-  (    2 N-000009 )
+ ( /501EB5EE IC IC2 RV-8564-C2
+  ( 1 N-000004 )
+  ( 2 ? )
+  ( 4 N-000011 )
+  ( 5 N-000007 )
+  ( 6 N-000010 )
+  ( 7 ? )
+  ( 10 ? )
  )
- ( /4FF4A3C3 $noname  IC1 ATTINY45 {Lib=ATTINY25-45-85/DIP-SO}
-  (    1 N-000003 )
-  (    2 N-000006 )
-  (    3 N-000004 )
-  (    4 N-000009 )
-  (    5 N-000010 )
-  (    6 N-000005 )
-  (    7 N-000011 )
-  (    8 N-000007 )
+ ( /501EB3A0 PINTST P1 Vcc
+  ( 1 N-000004 )
+ )
+ ( /4FF5D9E6 PINTST P2 Gnd
+  ( 1 N-000010 )
+ )
+ ( /502D5EAA TouchPad P3 Tch
+  ( 1 N-000001 )
+ )
+ ( /501EB76B TouchPad P4 Tch
+  ( 1 N-000001 )
+ )
+ ( /501EC303 SM0603 R1 4K7
+  ( 1 N-000004 )
+  ( 2 N-000007 )
+ )
+ ( /501EC3BD SM0603 R2 4K7
+  ( 1 N-000004 )
+  ( 2 N-000011 )
  )
 )
 *
 { Allowed footprints by component:
-$component R2
- R?
- SM0603
- SM0805
- R?-*
-$endlist
-$component R1
- R?
- SM0603
- SM0805
- R?-*
-$endlist
-$component D3
+$component D1
  LED-3MM
  LED-5MM
  LED-10MM
@@ -84,7 +87,7 @@ $component D2
  LED-1206
  LEDV
 $endlist
-$component D1
+$component D3
  LED-3MM
  LED-5MM
  LED-10MM
@@ -93,42 +96,17 @@ $component D1
  LED-1206
  LEDV
 $endlist
+$component R1
+ R?
+ SM0603
+ SM0805
+ R?-*
+$endlist
+$component R2
+ R?
+ SM0603
+ SM0805
+ R?-*
+$endlist
 $endfootprintlist
 }
-{ Pin List by Nets
-Net 3 "" ""
- IC1 1
- P4 1
- P3 1
-Net 4 "" ""
- D2 1
- IC1 3
-Net 5 "" ""
- IC1 6
- D1 1
-Net 6 "" ""
- D3 1
- IC1 2
-Net 7 "" ""
- P1 1
- IC1 8
- R2 1
- R1 1
- IC2 1
-Net 9 "" ""
- IC2 6
- D1 2
- IC1 4
- D2 2
- D3 2
- P2 1
-Net 10 "" ""
- IC2 5
- R1 2
- IC1 5
-Net 11 "" ""
- IC1 7
- IC2 4
- R2 2
-}
-#End
