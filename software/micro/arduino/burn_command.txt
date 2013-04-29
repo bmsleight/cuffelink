@@ -1,0 +1,1 @@
+/usr/share/arduino/hardware/tools/avrdude -C/usr/share/arduino/hardware/tools/avrdude.conf -v -v  -pattiny45 -cstk500v1 -P/dev/ttyUSB0 -b19200 -Uflash:w:/home/bms/tmp/tiny_rag.cpp.hex:i -U lfuse:w:0xe2:m -U hfuse:w:0x57:m -U efuse:w:0xff:m
