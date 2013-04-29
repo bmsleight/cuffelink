@@ -1,4 +1,4 @@
-Cmp-Mod V01 Genere par PcbNew le Sat 18 Aug 2012 23:48:40 BST
+Cmp-Mod V01 Genere par PcbNew le Sun 04 Nov 2012 00:02:52 GMT
 
 BeginCmp
 TimeStamp = /4FF4A74E;
@@ -32,7 +32,7 @@ BeginCmp
 TimeStamp = /501EB5EE;
 Reference = IC2;
 ValeurCmp = RV-8564-C2;
-IdModule  = IC;
+IdModule  = TQFP32;
 EndCmp
 
 BeginCmp
