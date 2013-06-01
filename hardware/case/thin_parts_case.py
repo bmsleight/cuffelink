@@ -7,7 +7,8 @@ from solid import *
 from solid.utils import *
 from solid import screw_thread 
 
-SEGMENTS = 60
+SEGMENTS = 120
+
 
 min_wall_free = 0.7
 min_wire_free = 1.0
@@ -19,6 +20,9 @@ pcb_gap =0.25
 tooth_depth = 0.7
 tooth_height = 1.4
 tooth_pitch = 1.4
+
+stork_length = 14
+lower_bar_length = 12
 
 #top_inside_diameter = 15.8
 top_inside_diameter = pcb_diameter + 2*tooth_depth + 2*pcb_gap
@@ -37,7 +41,7 @@ plastic_top_screw_height=1.8
 
 battery_diameter = 9.5
 wire_diameter = 1.23
-wiggle_room = 2
+wiggle_room = 1
 plastic_battery_hole_diameter = battery_diameter + wire_diameter + wiggle_room
 
 
@@ -96,7 +100,6 @@ def top():
 
 
 def plastic_connector_top(gap=0, reverse=False):
-    SEGMENTS = 120
     inner_rad = plastic_connector_dia/2 - gap
     section = screw_thread.default_thread_section( tooth_height=tooth_height, tooth_depth=tooth_depth)   
     s = screw_thread.thread( outline_pts=section, inner_rad = inner_rad,
@@ -120,20 +123,60 @@ def plastic_connector_bottom(gap=pcb_gap):
     c = c + cylinder( r=plastic_connector_dia/2 - gap, h=bottom_height_extra )
     return c
 
+def plastic_battery_hole():
+    height = top_height
+    return cylinder( r=plastic_battery_hole_diameter/2, h=top_height)
+
 def plastic_connector():
-    return plastic_connector_bottom() + plastic_connector_top(0.35)
+    return plastic_connector_bottom() + plastic_connector_top(0.35) - plastic_battery_hole() - cuff_bottom_disc()
+
+
+def cuff_bottom_disc(gap=0, reverse=False):
+    # plastic_battery_hole_diameter/2
+
+    inner_rad = plastic_battery_hole_diameter/2 - pcb_gap
+    section = screw_thread.default_thread_section( tooth_height=tooth_height, tooth_depth=tooth_depth)   
+    s = screw_thread.thread( outline_pts=section, inner_rad = inner_rad,
+                            pitch=tooth_pitch, length=plastic_top_screw_height, segments_per_rot=SEGMENTS, 
+                            neck_in_degrees=30, neck_out_degrees=30)
+                        
+
+    c = cylinder( r=plastic_battery_hole_diameter/2 - pcb_gap, h=plastic_top_screw_height)
+    h = up(plastic_top_screw_height/2)(cylinder( r=plastic_battery_hole_diameter/2 - pcb_gap - min_wall_free, h=plastic_top_screw_height/2))
+    print plastic_battery_hole_diameter/2 - pcb_gap - min_wall_free
+    return c + s - h
+
+def cuff_bottom_bat():
+    # lower_bar_length
+    b = cylinder( r=min_wire_free, h=lower_bar_length)
+    r = cylinder( r=min_wire_free*2, h=min_wire_free)
+    b = b + r + up(lower_bar_length/4+min_wire_free/2)(r) + up(lower_bar_length-min_wire_free*2+min_wire_free)(r) + up(lower_bar_length-min_wire_free*2-lower_bar_length/4+min_wire_free/2)(r)
+    return b
+
+def cuff_bottom_stork():
+    # Could be r=min_wire_free/2 but wanted strength
+    c = cylinder( r=min_wire_free, h=stork_length)
+    b = left(lower_bar_length/2) ( rotate([90,0,90]) ( cuff_bottom_bat() ) )
+
+    # min_wire_free
+    return down(stork_length-min_wall_free)(c+b)
+
+def cuff_bottom():
+    return cuff_bottom_disc() + cuff_bottom_stork()
+
 
 def assembly():
    cutaway = cube([20,20,20])
    t = top()
    c = plastic_connector()
    p = color(Green)(up(5.75)(pcb()))
+   b = cuff_bottom()
 #   stork = stork()
 #   connector = connector()
 
 #  return top + stork + connector
 #   return t + p + c - cutaway
-   return t + c - cutaway
+   return  b - cutaway 
 #   r = cylinder(r=top_outside_diameter/2, h=plastic_top_screw_height )
 #   return plastic_connector_top(gap=0, reverse=True)
 
