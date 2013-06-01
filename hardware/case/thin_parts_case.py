@@ -7,7 +7,7 @@ from solid import *
 from solid.utils import *
 from solid import screw_thread 
 
-SEGMENTS = 120
+SEGMENTS = 360
 
 
 min_wall_free = 0.7
@@ -149,7 +149,7 @@ def cuff_bottom_disc(gap=0, reverse=False):
 def cuff_bottom_bat():
     # lower_bar_length
     b = cylinder( r=min_wire_free, h=lower_bar_length)
-    r = cylinder( r=min_wire_free*2, h=min_wire_free)
+    r = cylinder( r=min_wire_free*1.5, h=min_wire_free)
     b = b + r + up(lower_bar_length/4+min_wire_free/2)(r) + up(lower_bar_length-min_wire_free*2+min_wire_free)(r) + up(lower_bar_length-min_wire_free*2-lower_bar_length/4+min_wire_free/2)(r)
     return b
 
@@ -171,15 +171,10 @@ def assembly():
    c = plastic_connector()
    p = color(Green)(up(5.75)(pcb()))
    b = cuff_bottom()
-#   stork = stork()
-#   connector = connector()
 
-#  return top + stork + connector
-#   return t + p + c - cutaway
-   return  b - cutaway 
-#   r = cylinder(r=top_outside_diameter/2, h=plastic_top_screw_height )
-#   return plastic_connector_top(gap=0, reverse=True)
 
+#   return  t + b + right(22)(t + b) 
+   return  b
 
 
 if __name__ == '__main__':    
