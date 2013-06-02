@@ -1,13 +1,13 @@
 #! /usr/bin/python
 # -*- coding: UTF-8 -*-
 from __future__ import division
-import os, sys, re
+import os, sys, re, argparse
 
 from solid import *
 from solid.utils import *
 from solid import screw_thread 
 
-SEGMENTS = 360
+SEGMENTS = 120
 
 
 min_wall_free = 0.7
@@ -188,17 +188,50 @@ def assembly():
    p = color(Green)(up(5.15)(pcb()))
    b = cuff_bottom()
 
-
+#   return  c + right(22)(c) 
+#   return  t + p  - cutaway
+   return  b  
 #   return  t + b + right(22)(t + b) 
-   return  t + b + p + c - cutaway
-#   return  p - cutaway
 
 if __name__ == '__main__':    
-    out_dir = sys.argv[1] if len(sys.argv) > 1 else os.curdir
-    file_out = os.path.join( out_dir, 'parts.scad')
-    
-    a = assembly()
-    
-    print "%(__file__)s: SCAD file written to: \n%(file_out)s \n"%vars()
-    
-    scad_render_to_file( a, file_out, include_orig_code=True)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-s', action='store', dest='openscad',
+                    help='Openscad file name')
+    parser.add_argument('-t', action='store_true', default=False,
+                    dest='top',
+                    help='Include the top of the cufflink')
+    parser.add_argument('-b', action='store_true', default=False,
+                    dest='bottom',
+                    help='Include the bottom of the cufflink')
+    parser.add_argument('-c', action='store_true', default=False,
+                    dest='connector',
+                    help='Include the connector of the cufflink')
+    parser.add_argument('-p', action='store_true', default=False,
+                    dest='pcb',
+                    help='Include the connector of the cufflink')
+    parser.add_argument('-w', action='store_true', default=False,
+                    dest='cutaway',
+                    help='Cutaway one quarter of the cufflink(s)')
+    parser.add_argument('-d', action='store_true', default=False,
+                    dest='double',
+                    help='Two sets of output')
+
+    parser.add_argument('--version', action='version', version='%(prog)s 1.0')
+    options = parser.parse_args()
+
+    a = union()
+    if options.top:
+        a = a + top()
+    if options.bottom:
+        a = a + cuff_bottom()
+    if options.connector:
+        a = a + plastic_connector()
+    if options.pcb:
+        a = a + color(Green)(up(5.15)(pcb()))
+    if options.cutaway:
+        a = a - down(20)(cube([40,40,40]))
+    if options.double:
+        a = a + right(20)(a) 
+
+    scad_render_to_file( a, options.openscad, include_orig_code=True)
+
