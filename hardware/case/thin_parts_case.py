@@ -24,12 +24,14 @@ tooth_pitch = 1.4
 stork_length = 14
 lower_bar_length = 12
 
+top_height = 8.1 - 0.6 # Thin waller mean think cuffelinks
+led_hole_dia = 1.4
+led_gap = 3
+
+
 #top_inside_diameter = 15.8
 top_inside_diameter = pcb_diameter + 2*tooth_depth + 2*pcb_gap
 top_outside_diameter = top_inside_diameter + (2 * min_wall_free)
-top_height = 8.1
-led_hole_dia = 1.4
-led_gap = 3
 
 touch_pads_height = 1.75
 touch_pads_cube_height = 1.4
@@ -51,9 +53,23 @@ def triangle(depth, a_len, o_len):
 
 
 def pcb():
-
     p = cylinder(h=pcb_thickness, r=pcb_diameter/2)
-    return p
+    return p + battery()
+
+
+def battery():
+#        translate([0,0,0.6/2]) cylinder(h=2.1, r=battery_diameter/2, center=true);
+#        translate([0,0,-2.1/2]) cylinder(h=0.6, r=7.4/2, center=true);
+#battery_thickness = 2.7;
+    battery_diameter_top = 9.5
+    battery_h_top = 1.4
+    battery_diameter_bottom = 8.0
+    battery_h_bottom = 2.7
+
+    b = up(battery_h_bottom - battery_h_top)(cylinder(r=battery_diameter/2, h=battery_h_top))
+
+    b = b + cylinder(r=battery_diameter_bottom/2, h=battery_h_bottom)
+    return down(battery_h_bottom)(b)
 
 
 def cuff_side():
@@ -166,16 +182,16 @@ def cuff_bottom():
 
 
 def assembly():
-   cutaway = cube([20,20,20])
+   cutaway = down(20)(cube([40,40,40]))
    t = top()
    c = plastic_connector()
-   p = color(Green)(up(5.75)(pcb()))
+   p = color(Green)(up(5.15)(pcb()))
    b = cuff_bottom()
 
 
 #   return  t + b + right(22)(t + b) 
-   return  b
-
+   return  t + b + p + c - cutaway
+#   return  p - cutaway
 
 if __name__ == '__main__':    
     out_dir = sys.argv[1] if len(sys.argv) > 1 else os.curdir
