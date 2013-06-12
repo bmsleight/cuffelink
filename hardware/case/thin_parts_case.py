@@ -28,9 +28,10 @@ top_height = 8.1 - 0.6 # Thin waller mean think cuffelinks
 led_hole_dia = 1.4
 led_gap = 3
 
+tie_pin_back_length = 13
 
 #top_inside_diameter = 15.8
-top_inside_diameter = pcb_diameter + 2*tooth_depth + 2*pcb_gap
+top_inside_diameter = pcb_diameter + 2*tooth_depth + 2*pcb_gap + 0.5
 top_outside_diameter = top_inside_diameter + (2 * min_wall_free)
 
 touch_pads_height = 1.75
@@ -43,7 +44,7 @@ plastic_top_screw_height=1.8
 
 battery_diameter = 9.5
 wire_diameter = 1.23
-wiggle_room = 1
+wiggle_room = 1.25
 plastic_battery_hole_diameter = battery_diameter + wire_diameter + wiggle_room
 
 
@@ -81,23 +82,58 @@ def cuff_side():
 def led_hole():
     return cylinder(r=led_hole_dia/2, h=min_wall_free)
 
-def hood():
+def hood_old():
     hood_d = led_hole_dia + (min_wall_free)
     hood_r = hood_d/2
     c = cylinder( r=hood_r, h=min_wall_free/2)
     c = c - cylinder( r=led_hole_dia/2, h=min_wall_free/2)
     t = translate([-hood_r,-hood_r,min_wall_free/2])(rotate([0, 90, 0])(triangle(hood_d,min_wall_free/2,hood_d)))
-    return c - t
+    return up(min_wall_free)(c - t)
 
-def boarder():
+def hood_v_two():
+    hood_d = led_hole_dia + (min_wall_free)
+    hood_r = hood_d/2
+    c = cylinder( r=hood_r, h=min_wall_free/2)
+    c = c - cylinder( r=led_hole_dia/2, h=min_wall_free/2)
+    t = translate([-hood_r,-hood_r,min_wall_free/2])(rotate([0, 90, 0])(triangle(hood_d,min_wall_free/2,hood_d)))
+    remove = left(hood_r)(forward(-2*hood_r)(cube([hood_d, hood_d, hood_r])))
+    return up(min_wall_free)(c - remove ) 
+
+
+def hood_slope():
+    hood_d = led_hole_dia + (min_embossed_detail*4)
+    hood_r = hood_d/2
+    c = cylinder( r=hood_r, h=min_embossed_detail*2)
+    c = c - cylinder( r=led_hole_dia/2, h=min_embossed_detail*2)
+    t = translate([-hood_r,-hood_r,min_embossed_detail*2])(rotate([0, 90, 0])(triangle(hood_d,min_embossed_detail*2,hood_d)))
+    remove = left(hood_r)(forward(-2*hood_r)(cube([hood_d, hood_d, hood_r])))
+    return up(min_wall_free)(c - remove -t) 
+
+def hood():
+    hood_d = led_hole_dia + (min_embossed_detail*2)
+    hood_r = hood_d/2
+    c = cylinder( r=hood_r, h=min_embossed_detail)
+    c = c - cylinder( r=led_hole_dia/2, h=min_embossed_detail)
+    t = translate([-hood_r,-hood_r,min_embossed_detail])(rotate([0, 90, 0])(triangle(hood_d,min_embossed_detail,hood_d)))
+    remove = left(hood_r)(forward(-2*hood_r)(cube([hood_d, hood_d, hood_r])))
+    
+    return up(min_wall_free)(c - remove ) 
+
+
+
+
+def boarder(underlayer=False):
     width = 5
     height = 11.0
-    b = cube([width, height, min_wall_free], center=True)
+    b = union()
+    if underlayer:
+        b = b + down(min_wall_free)(cube([width, height, min_wall_free], center=True))
+    b = b + cube([width, height, min_wall_free], center=True)
     b = b - cube([width - 2*min_wall_free, height - 2*min_wall_free, min_wall_free], center=True)
-    return b
+    return up(min_wall_free*1.5)(b)
 
 def pads():
-    c = cylinder(h=touch_pads_height, r=touch_pads_diameter/2, center=True);
+    c = cylinder(h=touch_pads_height, r=touch_pads_diameter/2, center=True)
     b = translate([0,0,(touch_pads_height/2)-touch_pads_cube_height/2])(cube([touch_pads_cube_height*2,touch_pads_diameter,touch_pads_cube_height], center=True))
     return c + b
 
@@ -105,9 +141,8 @@ def cuff_top():
     top = cylinder(r=top_outside_diameter/2, h=min_wall_free)
     top = top - led_hole() - forward(led_gap)(led_hole()) - back(led_gap)(led_hole())
     hoods = hood() + forward(led_gap)(hood()) + back(led_gap)(hood())
-    h = up(min_wall_free)(hoods)
-    b = up(min_wall_free*1.5)(boarder())
-    
+    h = hoods
+    b = boarder()   
     p = up(-min_wall_free)( forward(touch_pads_offset)(pads()) +  back(touch_pads_offset)(pads()) )
     return top + h + b + p
 
@@ -143,8 +178,8 @@ def plastic_battery_hole():
     height = top_height
     return cylinder( r=plastic_battery_hole_diameter/2, h=top_height)
 
-def plastic_connector():
-    return plastic_connector_bottom() + plastic_connector_top(0.35) - plastic_battery_hole() - cuff_bottom_disc()
+def plastic_connector(gap=0.35):
+    return plastic_connector_bottom() + plastic_connector_top(gap) - plastic_battery_hole() - cuff_bottom_disc()
 
 
 def cuff_bottom_disc(gap=0, reverse=False):
@@ -180,6 +215,29 @@ def cuff_bottom_stork():
 def cuff_bottom():
     return cuff_bottom_disc() + cuff_bottom_stork()
 
+def tie_pin_stork():
+    s = cylinder(r1=0, r2=led_gap/4, h=led_gap/4)
+    pt = cylinder( r1=0, r2=min_wire_free/2, h=min_wire_free/2)
+    c = cylinder( r=min_wire_free/2, h=tie_pin_back_length-min_wire_free/2)
+    p = cylinder( r1=0, r2=min_wire_free/2, h=min_wire_free/2)
+    return down(led_gap/4)(s) + down(min_wire_free/2)(back(led_gap)(p)) + down(tie_pin_back_length-min_wire_free/2)(c) + down(tie_pin_back_length)(p)
+
+
+
+def tie_pin_back():
+    b = cuff_bottom_disc()
+    return b + tie_pin_stork()
+
+
+def tie_pin_simple():
+    top = union()
+    top = top - led_hole() - forward(led_gap)(led_hole()) - back(led_gap)(led_hole())
+    hoods = hood() + forward(led_gap)(hood()) + back(led_gap)(hood())
+    top = top + hoods + boarder(underlayer=True)
+    holes = led_hole() + forward(led_gap)(led_hole()) + back(led_gap)(led_hole())
+    top = top - holes - up(min_wall_free)(holes)
+    return top + forward(led_gap/2)(tie_pin_stork())
+
 
 def assembly():
    cutaway = down(20)(cube([40,40,40]))
@@ -195,6 +253,8 @@ def assembly():
 
 if __name__ == '__main__':    
     parser = argparse.ArgumentParser()
+    parser.add_argument('-f', action='store', dest='fn',
+                    default="60", help='openscad $fn=')
     parser.add_argument('-s', action='store', dest='openscad',
                     help='Openscad file name')
     parser.add_argument('-t', action='store_true', default=False,
@@ -206,9 +266,21 @@ if __name__ == '__main__':
     parser.add_argument('-c', action='store_true', default=False,
                     dest='connector',
                     help='Include the connector of the cufflink')
+    parser.add_argument('-g', action='store', dest='gap',
+                    default="0.35", help='Connector gap')
     parser.add_argument('-p', action='store_true', default=False,
                     dest='pcb',
-                    help='Include the connector of the cufflink')
+                    help='Include the pcb inside the cufflink')
+    parser.add_argument('-i', action='store_true', default=False,
+                    dest='tiepin',
+                    help='Include the back of a tie pin of the cufflink')
+    parser.add_argument('-l', action='store_true', default=False,
+                    dest='tiepinsimple',
+                    help='Include the simple tie pin matching cufflink')
+    parser.add_argument('-o', action='store_true', default=False,
+                    dest='hood',
+                    help='Just a hood ')
+
     parser.add_argument('-w', action='store_true', default=False,
                     dest='cutaway',
                     help='Cutaway one quarter of the cufflink(s)')
@@ -220,18 +292,28 @@ if __name__ == '__main__':
     options = parser.parse_args()
 
     a = union()
+#    a = use("fn.scad")
     if options.top:
         a = a + top()
     if options.bottom:
         a = a + cuff_bottom()
+    if options.tiepin:
+        a = a + tie_pin_back()
+    if options.tiepinsimple:
+        a = a + tie_pin_simple()
+    if options.hood:
+        a = hood()
+
     if options.connector:
-        a = a + plastic_connector()
+        a = a + plastic_connector(gap=float(options.gap))
     if options.pcb:
         a = a + color(Green)(up(5.15)(pcb()))
+
     if options.cutaway:
         a = a - down(20)(cube([40,40,40]))
     if options.double:
         a = a + right(20)(a) 
 
-    scad_render_to_file( a, options.openscad, include_orig_code=True)
+    fn = '$fn=' + options.fn + ';'
+    scad_render_to_file( a, options.openscad, include_orig_code=True, file_header=fn)
 
