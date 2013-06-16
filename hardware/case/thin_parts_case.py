@@ -199,14 +199,14 @@ def cuff_bottom_disc(gap=0, reverse=False):
 
 def cuff_bottom_bat():
     # lower_bar_length
-    b = cylinder( r=min_wire_free, h=lower_bar_length)
-    r = cylinder( r=min_wire_free*1.5, h=min_wire_free)
+    b = cylinder( r=min_wire_free*1.25, h=lower_bar_length)
+    r = cylinder( r=min_wire_free*2, h=min_wire_free)
     b = b + r + up(lower_bar_length/4+min_wire_free/2)(r) + up(lower_bar_length-min_wire_free*2+min_wire_free)(r) + up(lower_bar_length-min_wire_free*2-lower_bar_length/4+min_wire_free/2)(r)
     return b
 
 def cuff_bottom_stork():
     # Could be r=min_wire_free/2 but wanted strength
-    c = cylinder( r=min_wire_free, h=stork_length)
+    c = cylinder( r=min_wire_free*1.25, h=stork_length)
     b = left(lower_bar_length/2) ( rotate([90,0,90]) ( cuff_bottom_bat() ) )
 
     # min_wire_free
